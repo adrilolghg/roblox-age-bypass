@@ -336,14 +336,13 @@
   birthdateSelectors.style.display = 'none';
 
   // Zeige nur, was zur Auswahl passt
-  if (val === 'birthyear') {
-    cookieBlock.style.display = 'block';
-  } else if (val === '13plus') {
-    cookieBlock.style.display = 'block';
-    passwordBlock.style.display = 'block';
-    birthdateLabel.style.display = 'block';
-    birthdateSelectors.style.display = 'flex';
-  }
+if (val === 'birthyear') {
+  cookieBlock.style.display = 'block';
+  passwordBlock.style.display = 'none';
+  birthdateLabel.style.display = 'block';
+  birthdateSelectors.style.display = 'flex';
+}
+
 });
 
 
