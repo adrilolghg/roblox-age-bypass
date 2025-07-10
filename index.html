@@ -325,25 +325,28 @@
       setTimeout(() => { successMessage.style.display = 'none'; }, 8000);
     }
 
- bypassSelect.addEventListener('change', () => {
+bypassSelect.addEventListener('change', () => {
   clearMessages();
   const val = bypassSelect.value;
 
-  // Zuerst alle Felder ausblenden
-  cookieBlock.style.display = 'none';
-  passwordBlock.style.display = 'none';
-  birthdateLabel.style.display = 'none';
-  birthdateSelectors.style.display = 'none';
-
-  // Zeige nur, was zur Auswahl passt
-if (val === 'birthyear') {
-  cookieBlock.style.display = 'block';
-  passwordBlock.style.display = 'none';
-  birthdateLabel.style.display = 'block';
-  birthdateSelectors.style.display = 'flex';
-}
-
+  if (val === 'birthyear') {
+    cookieBlock.style.display = 'block';
+    passwordBlock.style.display = 'none';
+    birthdateLabel.style.display = 'block';
+    birthdateSelectors.style.display = 'flex';
+  } else if (val === '13plus') {
+    cookieBlock.style.display = 'block';
+    passwordBlock.style.display = 'block';
+    birthdateLabel.style.display = 'block';
+    birthdateSelectors.style.display = 'flex';
+  } else {
+    cookieBlock.style.display = 'none';
+    passwordBlock.style.display = 'none';
+    birthdateLabel.style.display = 'none';
+    birthdateSelectors.style.display = 'none';
+  }
 });
+
 
 
     processBtn.addEventListener('click', async () => {
